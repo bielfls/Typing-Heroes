@@ -1,0 +1,43 @@
+from PPlay.window import *
+from PPlay.sprite import *
+from PPlay.gameimage import *
+from PPlay.animation import *
+from menuClass import Menu
+from selectionClass import Selection
+
+#fazendo a janela
+janela = Window(1152, 648)
+janela.set_title("Typing Heroes")
+
+#variavel que indicara qual tela o jogador está (começará no menu)
+tela = "menu"
+
+#teclado e cursor
+cursor = janela.get_mouse()
+taclado = janela.get_keyboard()
+
+#variavel que fará o jogo fechar quando for False
+jogo_ativo = True
+
+#definindo o menu usando a classe Menu criada no arquivo "menuClass"
+menu = Menu()
+#definindo a selecao de personagem usando a classe Selection criada no arquivo selectionClass
+selection = Selection()
+
+#loop principal do jogo
+while jogo_ativo:
+
+    match tela:
+        case "menu":
+            #funcao de desenhar o menu na janela
+            menu.menu_draw(janela)
+            #torna funcional o botao sair
+            if cursor.is_over_object(menu.botao_sair) and cursor.is_button_pressed(1):
+                jogo_ativo = False
+            if cursor.is_over_object(menu.botao_jogar) and cursor.is_button_pressed(1):
+                tela = "selection"
+        case "selection":
+            selection.selection_draw(janela)
+            selection.select_cursor(janela, cursor)
+
+    janela.update()
