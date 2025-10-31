@@ -29,6 +29,7 @@ selection = Selection()
 while jogo_ativo:
 
     match tela:
+        #menu
         case "menu":
             #funcao de desenhar o menu na janela
             menu.menu_draw(janela)
@@ -41,5 +42,10 @@ while jogo_ativo:
         case "selection":
             selection.selection_draw(janela)
             selection.select_cursor(janela, cursor)
+            #quando os dois jogadores escolhem, a partida começa (esta menu por enquanto pq ainda n tem jogo)
+            if selection.p1_escolheu and selection.p2_escolheu:
+                selection.p1_escolheu = False
+                selection.p2_escolheu = False
+                tela = "menu"
 
     janela.update()
