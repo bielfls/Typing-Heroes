@@ -2,6 +2,7 @@ from PPlay.window import *
 from PPlay.sprite import *
 from PPlay.gameimage import *
 from PPlay.animation import *
+#pegando as classes dos outros arquivos
 from menuClass import Menu
 from selectionClass import Selection
 
@@ -36,6 +37,7 @@ while jogo_ativo:
                 jogo_ativo = False
             if cursor.is_over_object(menu.botao_jogar) and cursor.is_button_pressed(1):
                 tela = "selection"
+        #seleção de personagem
         case "selection":
             selection.selection_draw(janela)
             selection.select_cursor(janela, cursor)
