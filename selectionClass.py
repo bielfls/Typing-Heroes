@@ -25,6 +25,14 @@ class Selection:
         self.p1_escolheu = False
         self.p2_escolheu = False
 
+        #variaveis para passar a escolha dos players pra partida
+        self.p1_escolha = ""
+        self.p2_escolha = ""
+
+        #variavel para ajudar a animar o ataque so uma vez quando o player escolher o personagem
+        self.p1_animou_ataque = False
+        self.p2_animou_ataque = False
+
     #função pra desenhar os blocos principais da tela de seleção
     def selection_draw(self, janela):
         self.fundo.set_position(0,0)
@@ -41,29 +49,62 @@ class Selection:
         
     
     def select_mecanica(self, janela, cursor):
-        #quando o cursor passe pelos perfis, a imagem do personagem aparece
-        if cursor.is_over_object(self.knight_select_p1):
-                self.knight_p1.png.set_position(janela.width/2 - self.knight_p1.png.width - 50, janela.height - self.knight_p1.png.height)
-                self.knight_p1.png.draw()
-        if cursor.is_over_object(self.knight_select_p2):
-                self.knight_p2.png.set_position(janela.width/2 + 50, janela.height - self.knight_p2.png.height)
-                self.knight_p2.png.draw()
+        if not self.p1_escolheu:
+                #quando o cursor passe pelos perfis, a imagem do personagem aparece
+                if cursor.is_over_object(self.knight_select_p1):
+                        self.knight_p1.png.set_position(janela.width/2 - self.knight_p1.png.width - 50, janela.height - self.knight_p1.png.height)
+                        self.knight_p1.png.draw()
+                if cursor.is_over_object(self.samurai_select_p1):
+                        self.samurai_p1.png.set_position(janela.width/2 - self.samurai_p1.png.width - 50, janela.height - self.samurai_p1.png.height)
+                        self.samurai_p1.png.draw()
 
-        if cursor.is_over_object(self.samurai_select_p1):
-                self.samurai_p1.png.set_position(janela.width/2 - self.samurai_p1.png.width - 50, janela.height - self.samurai_p1.png.height)
-                self.samurai_p1.png.draw()
-        if cursor.is_over_object(self.samurai_select_p2):
-                self.samurai_p2.png.set_position(janela.width/2 + 50, janela.height - self.samurai_p2.png.height)
-                self.samurai_p2.png.draw()
+                #quando o player escolhe o personagem clicando
+                if cursor.is_over_object(self.knight_select_p1) and cursor.is_button_pressed(1):
+                        self.p1_escolheu = True
+                        self.p1_escolha = "KNIGHT"
+                if cursor.is_over_object(self.samurai_select_p1) and cursor.is_button_pressed(1):
+                        self.p1_escolheu = True
+                        self.p1_escolha = "SAMURAI"
+        if not self.p2_escolheu:
+                #quando o player escolhe o personagem clicando
+                if cursor.is_over_object(self.knight_select_p2):
+                        self.knight_p2.png.set_position(janela.width/2 + 50, janela.height - self.knight_p2.png.height)
+                        self.knight_p2.png.draw()
+                if cursor.is_over_object(self.samurai_select_p2):
+                        self.samurai_p2.png.set_position(janela.width/2 + 50, janela.height - self.samurai_p2.png.height)
+                        self.samurai_p2.png.draw()
 
-        #quando o player escolhe o personagem clicando
-        if cursor.is_over_object(self.knight_select_p1) and cursor.is_button_pressed(1):
-              self.p1_escolheu = True
-        if cursor.is_over_object(self.knight_select_p2) and cursor.is_button_pressed(1):
-              self.p2_escolheu = True
-        if cursor.is_over_object(self.samurai_select_p1) and cursor.is_button_pressed(1):
-              self.p1_escolheu = True
-        if cursor.is_over_object(self.samurai_select_p2) and cursor.is_button_pressed(1):
-              self.p2_escolheu = True
+                #se player escolher, o personagem começara a ser animado começando com um ataque
+                if cursor.is_over_object(self.knight_select_p2) and cursor.is_button_pressed(1):
+                        self.p2_escolheu = True
+                        self.p2_escolha = "KNIGHT"
+                if cursor.is_over_object(self.samurai_select_p2) and cursor.is_button_pressed(1):
+                        self.p2_escolheu = True
+                        self.p2_escolha = "SAMURAI"
 
-              
+        #se player escolher, o personagem começara a ser animado começando com um ataque
+        if self.p1_escolheu:
+              if self.p1_escolha == "SAMURAI":
+                #MUDAR ISSO AQUI DEPOIS (o set position logo abaixo tambem)
+                #
+                #
+                #
+                #
+                self.samurai_p1.anim_atual.set_position(janela.width/2 + 50, janela.height - self.samurai_p1.anim_atual.height)
+                #
+                #
+                #
+                #
+                if not self.p1_animou_ataque:
+                        self.samurai_p1.ataque_1()
+                        self.p1_animou_ataque = True
+                self.samurai_p1.atualiza_anim()
+                self.samurai_p1.desenha()
+
+              elif self.p1_escolha == "KNIGHT":
+                self.knight_p1.anim_atual.set_position(janela.width/2 + 50, janela.height - self.knight_p1.anim_atual.height)
+                if not self.p1_animou_ataque:
+                        self.knight_p1.ataque_1()
+                        self.p1_animou_ataque = True
+                self.knight_p1.atualiza_anim()
+                self.knight_p1.desenha()

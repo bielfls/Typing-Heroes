@@ -41,7 +41,7 @@ while jogo_ativo:
         #seleção de personagem
         case "selection":
             selection.selection_draw(janela)
-            selection.select_cursor(janela, cursor)
+            selection.select_mecanica(janela, cursor)
             #quando os dois jogadores escolhem, a partida começa (esta menu por enquanto pq ainda n tem jogo)
             if selection.p1_escolheu and selection.p2_escolheu:
                 selection.p1_escolheu = False
