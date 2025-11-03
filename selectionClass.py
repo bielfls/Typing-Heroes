@@ -40,8 +40,9 @@ class Selection:
         self.knight_select_p2.set_position(janela.width - self.knight_select_p2.width - 15, 15)
         self.samurai_select_p1.set_position(15, 15*2 + self.knight_select_p2.height)
         self.samurai_select_p2.set_position(janela.width - self.knight_select_p2.width - 15, 15*2 + self.knight_select_p2.height)
-
+        
         self.fundo.draw()
+        janela.draw_text("ESCOLHA", janela.width/2 - 220, 15, 80, (0,0,255), "Arial", True, False)
         self.knight_select_p1.draw()
         self.knight_select_p2.draw()
         self.samurai_select_p1.draw()
@@ -85,16 +86,7 @@ class Selection:
         #se player escolher, o personagem começara a ser animado começando com um ataque
         if self.p1_escolheu:
               if self.p1_escolha == "SAMURAI":
-                #MUDAR ISSO AQUI DEPOIS (o set position logo abaixo tambem)
-                #
-                #
-                #
-                #
-                self.samurai_p1.anim_atual.set_position(janela.width/2 + 50, janela.height - self.samurai_p1.anim_atual.height)
-                #
-                #
-                #
-                #
+                self.samurai_p1.anim_atual.set_position(225, janela.height - self.samurai_p1.anim_atual.height)
                 if not self.p1_animou_ataque:
                         self.samurai_p1.ataque_1()
                         self.p1_animou_ataque = True
@@ -102,9 +94,26 @@ class Selection:
                 self.samurai_p1.desenha()
 
               elif self.p1_escolha == "KNIGHT":
-                self.knight_p1.anim_atual.set_position(janela.width/2 + 50, janela.height - self.knight_p1.anim_atual.height)
+                self.knight_p1.anim_atual.set_position(225 , janela.height - self.knight_p1.anim_atual.height)
                 if not self.p1_animou_ataque:
-                        self.knight_p1.ataque_1()
+                        self.knight_p1.ataque_2()
                         self.p1_animou_ataque = True
                 self.knight_p1.atualiza_anim()
                 self.knight_p1.desenha()
+
+        if self.p2_escolheu:
+              if self.p2_escolha == "SAMURAI":
+                self.samurai_p2.anim_atual.set_position(janela.width - 225 - self.knight_p2.anim_atual.width, janela.height - self.samurai_p2.anim_atual.height)
+                if not self.p2_animou_ataque:
+                        self.samurai_p2.ataque_1()
+                        self.p2_animou_ataque = True
+                self.samurai_p2.atualiza_anim()
+                self.samurai_p2.desenha()
+
+              elif self.p2_escolha == "KNIGHT":
+                self.knight_p2.anim_atual.set_position(janela.width - 225 - self.knight_p2.anim_atual.width, janela.height - self.knight_p2.anim_atual.height)
+                if not self.p2_animou_ataque:
+                        self.knight_p2.ataque_2()
+                        self.p2_animou_ataque = True
+                self.knight_p2.atualiza_anim()
+                self.knight_p2.desenha()

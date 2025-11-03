@@ -44,8 +44,9 @@ while jogo_ativo:
             selection.select_mecanica(janela, cursor)
             #quando os dois jogadores escolhem, a partida começa (esta menu por enquanto pq ainda n tem jogo)
             if selection.p1_escolheu and selection.p2_escolheu:
-                selection.p1_escolheu = False
-                selection.p2_escolheu = False
-                tela = "menu"
+                #selection.p1_escolheu = False
+                #selection.p2_escolheu = False
+                #fazer mudança de tela pra partida aqui
+                pass
 
     janela.update()

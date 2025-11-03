@@ -10,7 +10,7 @@ class Player:
         assets_path = os.path.join(os.path.dirname(__file__), "Assets")
         knight_path = os.path.join(assets_path, "Knight")
         self.idle_anim = Sprite(os.path.join(knight_path, "Idle.png"), 4)
-        self.attack_anim = Sprite(os.path.join(knight_path, "Attack 3.png"), 4)
+        self.attack_anim = Sprite(os.path.join(knight_path, "Attack 2.png"), 4)
 
         # Define a velocidade de cada animação (em milissegundos para o loop completo)
         self.idle_anim.set_total_duration(1000)  # 1 segundo para a animação idle
