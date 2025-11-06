@@ -13,11 +13,13 @@ knight_atack_1.image = pygame.transform.flip(knight_atack_1.image, True, False)
 knight_atack_1.set_position(180,-120)
 knight_atack_1.set_total_duration(500)
 
+cavalero = Sprite("./Assets/Knight/knight.png")
+cavalero.set_position(0,0)
 print(knight_atack_1.total_frames)
 
 while True:
     janela.set_background_color((25,25,25))
-
+    cavalero.draw()
     knight_atack_1.update()
     knight_atack_1.draw()
 

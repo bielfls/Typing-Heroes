@@ -2,7 +2,6 @@ from PPlay.window import *
 from PPlay.sprite import *
 from PPlay.gameimage import *
 import os
-
 class SamuraiP1:
     def __init__(self):
         #definindo os caminhos dos arquivos pra pegar os sprites
