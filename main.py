@@ -18,7 +18,7 @@ cursor = janela.get_mouse()
 taclado = janela.get_keyboard()
 
 #variavel que fará o jogo fechar quando for False
-jogo_ativo = True
+janela.jogo_ativo = True
 
 #definindo o menu usando a classe Menu criada no arquivo "menuClass"
 menu = Menu()
@@ -26,7 +26,7 @@ menu = Menu()
 selection = Selection()
 
 #loop principal do jogo
-while jogo_ativo:
+while janela.jogo_ativo:
 
     match tela:
         #menu
@@ -35,7 +35,7 @@ while jogo_ativo:
             menu.menu_draw(janela)
             #torna funcional o botao sair
             if cursor.is_over_object(menu.botao_sair) and cursor.is_button_pressed(1):
-                jogo_ativo = False
+                janela.jogo_ativo = False
             if cursor.is_over_object(menu.botao_jogar) and cursor.is_button_pressed(1):
                 tela = "selection"
         #seleção de personagem

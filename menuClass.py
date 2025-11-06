@@ -13,7 +13,7 @@ class Menu:
         self.botao_jogar = Sprite(os.path.join(assets_path, "botão_jogar.png"))
 
     #desenha o menu
-    def menu_draw(self, janela):
+    def menu_draw(self, janela : Window):
         self.fundo.set_position(0,0)
         self.logo.set_position(janela.width/2 - self.logo.width/2, 100)
         self.botao_sair.set_position(janela.width/2 + 50, 500)
