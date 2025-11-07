@@ -20,6 +20,8 @@ class Selection:
         self.knight_select_p2 = Sprite(os.path.join(assets_path, "knight_select.png"))
         self.samurai_select_p1 = Sprite(os.path.join(assets_path, "samurai_select.png"))
         self.samurai_select_p2 = Sprite(os.path.join(assets_path, "samurai_select.png"))
+        self.botao_jogar = Sprite(os.path.join(assets_path, "botao_jogar_selection.png"))
+        self.escolha_letreiro = Sprite(os.path.join(assets_path, "escolha_letreiro.png"))
 
         #variaveis de escolha de personagem
         self.p1_escolheu = False
@@ -40,16 +42,17 @@ class Selection:
         self.knight_select_p2.set_position(janela.width - self.knight_select_p2.width - 15, 15)
         self.samurai_select_p1.set_position(15, 15*2 + self.knight_select_p2.height)
         self.samurai_select_p2.set_position(janela.width - self.knight_select_p2.width - 15, 15*2 + self.knight_select_p2.height)
-        
+        self.escolha_letreiro.set_position(janela.width/2 - self.escolha_letreiro.width/2, 15)
+
         self.fundo.draw()
-        janela.draw_text("ESCOLHA", janela.width/2 - 220, 15, 80, (0,0,255), "Arial", True, False)
+        self.escolha_letreiro.draw()
         self.knight_select_p1.draw()
         self.knight_select_p2.draw()
         self.samurai_select_p1.draw()
         self.samurai_select_p2.draw()
         
     
-    def select_mecanica(self, janela, cursor):
+    def select_mecanica(self, janela : Window, cursor):
         if not self.p1_escolheu:
                 #quando o cursor passe pelos perfis, a imagem do personagem aparece
                 if cursor.is_over_object(self.knight_select_p1):
@@ -117,3 +120,7 @@ class Selection:
                         self.p2_animou_ataque = True
                 self.knight_p2.atualiza_anim()
                 self.knight_p2.desenha()
+        
+        if self.p1_escolheu and self.p2_escolheu:
+              self.botao_jogar.set_position(janela.width/2 - self.botao_jogar.width/2, janela.height/2 - self.botao_jogar.height/2)
+              self.botao_jogar.draw()
