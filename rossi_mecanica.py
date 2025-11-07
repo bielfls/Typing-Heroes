@@ -99,10 +99,10 @@ while True:
     lifebar_linha2.draw()
     # desenhar e mover setas jogador 1
     for lista, elimina, player_ref, perfect, letra, estadoanterior_letra, estadoatual_letra in [
-        (lista_az, elimina_azul, "p1", perfect_az, "R", estadoanterior_p, estadoatual_p),
-        (lista_am, elimina_amarela, "p1", perfect_am, "W", estadoanterior_p, estadoatual_p),
-        (lista_vd, elimina_verde, "p1", perfect_vd, "Q", estadoanterior_p, estadoatual_p),
-        (lista_vm, elimina_vermelha, "p1", perfect_vm, "E", estadoanterior_p, estadoatual_p)
+        (lista_az, elimina_azul, "p1", perfect_az, "R", estadoanterior_r, estadoatual_r),
+        (lista_am, elimina_amarela, "p1", perfect_am, "W", estadoanterior_w, estadoatual_w),
+        (lista_vd, elimina_verde, "p1", perfect_vd, "Q", estadoanterior_q, estadoatual_q),
+        (lista_vm, elimina_vermelha, "p1", perfect_vm, "E", estadoanterior_e, estadoatual_e)
     ]:
         for seta in lista[:]:
             seta.draw()
