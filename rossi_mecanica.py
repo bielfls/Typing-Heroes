@@ -70,6 +70,16 @@ elimina_amarela2=Sprite(os.path.join(assets_path, "seta_amarela_brilhante.png"))
 elimina_verde2=Sprite(os.path.join(assets_path, "seta_verde_brilhante.png"))
 elimina_vermelha2=Sprite(os.path.join(assets_path, "seta_vermelha_brilhante.png"))
 
+brilho_azul=Sprite(os.path.join(assets_path, "seta_azul_brilhante.png"));brilho_azul.set_position(30*3+seta_amarela.width*2 ,20)
+brilho_amarela=Sprite(os.path.join(assets_path, "seta_amarela_brilhante.png"));brilho_amarela.set_position(30 ,20)
+brilho_verde=Sprite(os.path.join(assets_path, "seta_verde_brilhante.png"));brilho_verde.set_position(30*4+seta_amarela.width*3 ,20)
+brilho_vermelha=Sprite(os.path.join(assets_path, "seta_vermelha_brilhante.png"));brilho_vermelha.set_position(30*2+seta_amarela.width ,20)
+
+brilho_azul2=Sprite(os.path.join(assets_path, "seta_azul_brilhante.png"));brilho_azul2.set_position(janela.width - 30*3 - seta_amarela2.width*3,20)
+brilho_amarela2=Sprite(os.path.join(assets_path, "seta_amarela_brilhante.png"));brilho_amarela2.set_position(janela.width - 30 - seta_amarela2.width,20)
+brilho_verde2=Sprite(os.path.join(assets_path, "seta_verde_brilhante.png"));brilho_verde2.set_position(janela.width - 30*4 - seta_amarela2.width*4,20)
+brilho_vermelha2=Sprite(os.path.join(assets_path, "seta_vermelha_brilhante.png"));brilho_vermelha2.set_position(janela.width - 30*2 - seta_amarela2.width*2,20)
+
 # controladores de qualidade do acerto
 perfect_az=Sprite(os.path.join(assets_path, "pixel_preto.png")); perfect_az.set_position(seta_azul.x+seta_azul.width/2,seta_azul.y+seta_azul.height/2)
 perfect_am=Sprite(os.path.join(assets_path, "pixel_preto.png")); perfect_am.set_position(seta_amarela.x+seta_amarela.width/2,seta_amarela.y+seta_amarela.height/2)
@@ -99,10 +109,10 @@ while True:
     lifebar_linha2.draw()
     # desenhar e mover setas jogador 1
     for lista, elimina, player_ref, perfect, letra, estadoanterior_letra, estadoatual_letra in [
-        (lista_az, elimina_azul, "p1", perfect_az, "R", estadoanterior_r, estadoatual_r),
-        (lista_am, elimina_amarela, "p1", perfect_am, "W", estadoanterior_w, estadoatual_w),
-        (lista_vd, elimina_verde, "p1", perfect_vd, "Q", estadoanterior_q, estadoatual_q),
-        (lista_vm, elimina_vermelha, "p1", perfect_vm, "E", estadoanterior_e, estadoatual_e)
+        (lista_vd, elimina_verde, "p1", perfect_vd, "R", estadoanterior_r, estadoatual_r),
+        (lista_vm, elimina_vermelha, "p1", perfect_vm, "W", estadoanterior_w, estadoatual_w),
+        (lista_am, elimina_amarela, "p1", perfect_am, "Q", estadoanterior_q, estadoatual_q),
+        (lista_az, elimina_azul, "p1", perfect_az, "E", estadoanterior_e, estadoatual_e)
     ]:
         for seta in lista[:]:
             seta.draw()
@@ -150,7 +160,7 @@ while True:
 
     # geração de novas setas
     tempo += dt
-    if tempo >= random.uniform(0.2, 0.5):
+    if tempo >= random.uniform(0.4, 0.7):
         tempo = 0
         qtd = len(lista_az)+len(lista_am)+len(lista_vd)+len(lista_vm)
         qtd2 = len(lista_az2)+len(lista_am2)+len(lista_vd2)+len(lista_vm2)
@@ -167,15 +177,15 @@ while True:
                 lista_az.append(nova)
             elif gerador==2:
                 nova=Sprite(os.path.join(assets_path, "setaamarela.png"))
-                nova.set_position(30*2+seta_amarela.width,648)
+                nova.set_position(30,648)
                 lista_am.append(nova)
             elif gerador==3:
                 nova=Sprite(os.path.join(assets_path, "setaverde.png"))
-                nova.set_position(30,648)
+                nova.set_position(30*4+seta_amarela.width*3,648)
                 lista_vd.append(nova)
             elif gerador==4:
                 nova=Sprite(os.path.join(assets_path, "setavermelha.png"))
-                nova.set_position(30*4+seta_amarela.width*3,648)
+                nova.set_position(30*2+seta_amarela.width,648)
                 lista_vm.append(nova)
 
         if qtd2 < 7:
@@ -184,21 +194,21 @@ while True:
             else:
                 gerador2=random.randint(1,4)
             contagem2[gerador2-1] += 1
-            if gerador2==1:
+            if gerador2==1: 
                 nova=Sprite(os.path.join(assets_path, "setaazul.png"))
-                nova.set_position(janela.width - 30*4 - seta_amarela.width*4,648)
-                lista_az2.append(nova)
-            elif gerador2==2:
-                nova=Sprite(os.path.join(assets_path, "setaamarela.png"))
-                nova.set_position(janela.width - 30*2 - seta_amarela.width*2,648)
-                lista_am2.append(nova)
-            elif gerador2==3:
-                nova=Sprite(os.path.join(assets_path, "setaverde.png"))
-                nova.set_position(janela.width - 30 - seta_amarela.width,648)
-                lista_vd2.append(nova)
-            elif gerador2==4:
-                nova=Sprite(os.path.join(assets_path, "setavermelha.png"))
                 nova.set_position(janela.width - 30*3 - seta_amarela.width*3,648)
+                lista_az2.append(nova)
+            elif gerador2==2: 
+                nova=Sprite(os.path.join(assets_path, "setaamarela.png"))
+                nova.set_position(janela.width - 30 - seta_amarela.width,648)
+                lista_am2.append(nova)
+            elif gerador2==3: 
+                nova=Sprite(os.path.join(assets_path, "setaverde.png"))
+                nova.set_position(janela.width - 30*4 - seta_amarela.width*4,648)
+                lista_vd2.append(nova)
+            elif gerador2==4: 
+                nova=Sprite(os.path.join(assets_path, "setavermelha.png"))
+                nova.set_position(janela.width - 30*2 - seta_amarela.width*2,648)
                 lista_vm2.append(nova)
 
     estadoanterior_r = estadoatual_r
@@ -210,38 +220,41 @@ while True:
     estadoanterior_u = estadoatual_u
     estadoanterior_o = estadoatual_o
 
-    estadoatual_r = teclado.key_pressed("E")
+    estadoatual_r = teclado.key_pressed("R")
     estadoatual_w = teclado.key_pressed("W")
     estadoatual_q = teclado.key_pressed("Q")
-    estadoatual_e = teclado.key_pressed("R")
-    estadoatual_p = teclado.key_pressed("U")
-    estadoatual_i = teclado.key_pressed("O")
-    estadoatual_u = teclado.key_pressed("P")
-    estadoatual_o = teclado.key_pressed("I")
+    estadoatual_e = teclado.key_pressed("E")
+    estadoatual_p = teclado.key_pressed("P")
+    estadoatual_i = teclado.key_pressed("I")
+    estadoatual_u = teclado.key_pressed("U")
+    estadoatual_o = teclado.key_pressed("O")
     
-    lifebar_verde.y+=pontos2*0.0001
-    lifebar_verde2.y+=pontos*0.0001
+    lifebar_verde.y+=pontos2*0.00001
+    lifebar_verde2.y+=pontos*0.00001
 
-    for estadoanterior_letra, estadoatual_letra, seta, elimina, x in [
-        (estadoanterior_p, estadoatual_p, seta_azul2, elimina_azul2, janela.width - 30*4 - seta_amarela.width*4),
-        (estadoanterior_o, estadoatual_o, seta_vermelha2, elimina_vermelha2, janela.width - 30*3 - seta_amarela.width*3),
-        (estadoanterior_i, estadoatual_i, seta_amarela2, elimina_amarela2, janela.width - 30*2 - seta_amarela.width*2),
-        (estadoanterior_u, estadoatual_u, seta_verde2, elimina_verde2, janela.width - 30 - seta_amarela.width),
-        (estadoanterior_r, estadoatual_r, seta_azul, elimina_azul, 30*4+seta_amarela.width),
-        (estadoanterior_e, estadoatual_e, seta_vermelha, elimina_vermelha, 30*3+seta_amarela.width),
-        (estadoanterior_w, estadoatual_w, seta_amarela, elimina_amarela, 30*2+seta_amarela.width),
-        (estadoanterior_q, estadoatual_q, seta_azul, elimina_verde, 30)
+    for s in [seta_azul,seta_verde,seta_vermelha,seta_amarela,seta_azul2,seta_verde2,seta_vermelha2,seta_amarela2]:
+        s.draw()
+
+    for estadoanterior_letra, estadoatual_letra, seta, elimina, x, brilho_letra in [
+        (estadoanterior_i, estadoatual_i, seta_azul2, elimina_azul2, janela.width - 30*3 - seta_amarela.width*3, brilho_azul2),
+        (estadoanterior_o, estadoatual_o, seta_vermelha2, elimina_vermelha2, janela.width - 30*2 - seta_amarela.width*2, brilho_vermelha2),
+        (estadoanterior_p, estadoatual_p, seta_amarela2, elimina_amarela2, janela.width - 30 - seta_amarela.width, brilho_amarela2),
+        (estadoanterior_u, estadoatual_u, seta_verde2, elimina_verde2, janela.width - 30*4 - seta_amarela.width*4, brilho_verde2),
+        (estadoanterior_r, estadoatual_r, seta_verde, elimina_verde, 30*4+seta_amarela.width*3, brilho_verde),
+        (estadoanterior_e, estadoatual_e, seta_azul, elimina_azul, 30*3+seta_amarela.width*2, brilho_azul),
+        (estadoanterior_w, estadoatual_w, seta_vermelha, elimina_vermelha, 30*2+seta_amarela.width, brilho_vermelha),
+        (estadoanterior_q, estadoatual_q, seta_amarela, elimina_amarela, 30, brilho_amarela)
     ]:
+        if estadoatual_letra:
+            brilho_letra.draw()
         if estadoanterior_letra==False and estadoatual_letra==True:
             seta.draw()
             elimina.set_position(x,20)
+            elimina.draw()
         else:
             elimina.set_position(3000,4000)
 
     if teclado.key_pressed("ESC"): janela.close()
-
-    for s in [seta_azul,seta_verde,seta_vermelha,seta_amarela,seta_azul2,seta_verde2,seta_vermelha2,seta_amarela2]:
-        s.draw()
 
     # placar
     janela.draw_text(f"P1: {pontos}", 10, 10, 20, (255,255,255))
