@@ -256,9 +256,6 @@ while True:
 
     if teclado.key_pressed("ESC"): janela.close()
 
-    # placar
-    janela.draw_text(f"P1: {pontos}", 10, 10, 20, (255,255,255))
-    janela.draw_text(f"P2: {pontos2}", 800, 10, 20, (255,255,255))
     
     
     #---------GAMEOVER-------------#
