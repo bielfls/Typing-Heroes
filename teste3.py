@@ -11,10 +11,12 @@ class Player:
         knight_path = os.path.join(assets_path, "Knight")
         self.idle_anim = Sprite(os.path.join(knight_path, "Idle.png"), 4)
         self.attack_anim = Sprite(os.path.join(knight_path, "Attack 2.png"), 4)
+        self.attack_anim.image = pygame.transform.flip(self.attack_anim.image, True, False)
+        self.idle_anim.image = pygame.transform.flip(self.idle_anim.image, True, False)
 
         # Define a velocidade de cada animação (em milissegundos para o loop completo)
         self.idle_anim.set_total_duration(1000)  # 1 segundo para a animação idle
-        self.attack_anim.set_total_duration(500) # 0.5 segundos para o ataque (mais rápido)
+        self.attack_anim.set_total_duration(300) # 0.5 segundos para o ataque (mais rápido)
 
         # --- 2. Definir Estado Inicial ---
         self.state = "IDLE"  # Pode ser "IDLE" ou "ATTACKING"
@@ -28,6 +30,8 @@ class Player:
         # --- 4. Controle ---
         self.keyboard = Window.get_keyboard()
 
+        self.clock = 0
+
     def attack(self):
         """Muda o estado para 'ATACANDO', mas só se estiver 'PARADO'."""
         if self.state == "IDLE":
@@ -39,13 +43,16 @@ class Player:
             # IMPORTANTE: Reinicia a animação de ataque para o frame 0
             self.current_animation.set_curr_frame(0)
 
-    def updatee(self):
+    def updatee(self, janela : Window):
         """Atualiza a lógica do jogador a cada frame."""
         
         # --- 1. Checar Inputs ---
         # Se 'W' for pressionado, tenta iniciar o ataque
-        if self.keyboard.key_pressed("W"):
-            self.attack()
+        self.clock += janela.delta_time()
+        if self.clock > 0.4:
+            if self.keyboard.key_pressed("W"):
+                self.attack()
+                self.clock = 0
 
         # --- 2. Lógica de Animação e Estado ---
         
@@ -95,13 +102,14 @@ player_x = 180
 player_y = -120
 player = Player(player_x, player_y)
 
+
 # 3. Game Loop
 while True:
     # Limpa a tela (fundo preto)
     janela.set_background_color((25, 25, 25))
 
     # Atualiza a lógica do jogador
-    player.updatee()
+    player.updatee(janela)
 
     # Desenha o jogador
     player.draww()

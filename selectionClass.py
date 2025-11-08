@@ -36,7 +36,7 @@ class Selection:
         self.p2_animou_ataque = False
 
     #função pra desenhar os blocos principais da tela de seleção
-    def selection_draw(self, janela):
+    def selection_draw(self, janela : Window):
         self.fundo.set_position(0,0)
         self.knight_select_p1.set_position(15,15)
         self.knight_select_p2.set_position(janela.width - self.knight_select_p2.width - 15, 15)
@@ -50,6 +50,7 @@ class Selection:
         self.knight_select_p2.draw()
         self.samurai_select_p1.draw()
         self.samurai_select_p2.draw()
+        janela.draw_text("ESC para voltar", 10, 620, 20, (255,255,255), "Arial", True)
         
     
     def select_mecanica(self, janela : Window, cursor):
@@ -124,3 +125,9 @@ class Selection:
         if self.p1_escolheu and self.p2_escolheu:
               self.botao_jogar.set_position(janela.width/2 - self.botao_jogar.width/2, janela.height/2 - self.botao_jogar.height/2)
               self.botao_jogar.draw()
+
+    def reinicia_variaveis(self):
+        self.p1_escolheu = False
+        self.p2_escolheu = False
+        self.p1_animou_ataque = False
+        self.p2_animou_ataque = False

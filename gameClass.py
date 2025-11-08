@@ -15,7 +15,10 @@ class Game:
         #mais tarde esses serao os personagens dos players
         self.p1 = ''
         self.p2 = ''
-
+        self.pause = False
+        self.fundo_pause = Sprite(os.path.join(assets_path, "fundo_pause.png"))
+        self.botao_continuar = Sprite(os.path.join(assets_path, "botao_continuar.png"))
+        self.botao_voltar = Sprite(os.path.join(assets_path, "botao_voltar.png"))
         
     
     def define_personagens(self, p1_escolha, p2_escolha):
@@ -62,3 +65,13 @@ class Game:
             self.p2.anim_atual.set_position(janela.width - 225 - self.p2.anim_atual.width, janela.height - self.p2.anim_atual.height)
             self.p2.atualiza_anim()
             self.p2.desenha()
+     
+    def game_pause(self, janela : Window):
+          self.fundo_pause.set_position(0,0)
+          self.botao_continuar.set_position(janela.width/2-self.botao_continuar.width/2,50)
+          self.botao_voltar.set_position(janela.width/2-self.botao_voltar.width/2,50+50+self.botao_continuar.height)
+
+          self.fundo_pause.draw()
+          self.botao_continuar.draw()
+          self.botao_voltar.draw()
+          pass

@@ -28,10 +28,12 @@ selection = Selection()
 #definindo a tela do jogo usando a classe Game criada em "gameClass.py"
 game = Game()
 partida_inicia = False
+
 #loop principal do jogo
 while janela.jogo_ativo:
 
     match tela:
+
         #menu
         case "menu":
             #funcao de desenhar o menu na janela
@@ -41,20 +43,40 @@ while janela.jogo_ativo:
                 janela.jogo_ativo = False
             if cursor.is_over_object(menu.botao_jogar) and cursor.is_button_pressed(1):
                 tela = "selection"
+
+
         #seleção de personagem
         case "selection":
+            #volta pro menu se apertar esc
+            if teclado.key_pressed("ESC"):
+                tela = "menu"
+                selection.reinicia_variaveis()
+            #funçoes q fazem tudo
             selection.selection_draw(janela)
             selection.select_mecanica(janela, cursor)
             #quando os dois jogadores escolhem, a partida começa (esta menu por enquanto pq ainda n tem jogo)
             if selection.p1_escolheu and selection.p2_escolheu and cursor.is_over_object(selection.botao_jogar) and cursor.is_button_pressed(1):
-                selection.p1_escolheu = False
-                selection.p2_escolheu = False
+                selection.reinicia_variaveis()
                 partida_inicia = True
                 tela = "game"
+
+
+        #partida
         case "game":
-            if partida_inicia:
-                game.define_personagens(selection.p1_escolha, selection.p2_escolha)
-                partida_inicia = False
-            game.animação_players(teclado)
-            game.game_draw(janela, selection.p1_escolha, selection.p2_escolha)
+            if not game.pause:
+                if partida_inicia:
+                    game.define_personagens(selection.p1_escolha, selection.p2_escolha)
+                    partida_inicia = False
+                game.animação_players(teclado) #AQUI ENTRARÁ A VARIAVEL QUE INDICA SE O PLAYER ACERTOU OU NAO A SETA
+                game.game_draw(janela, selection.p1_escolha, selection.p2_escolha)
+                if teclado.key_pressed("ESC"):
+                    game.pause = True
+            else:
+                game.game_pause(janela)
+                if cursor.is_over_object(game.botao_continuar) and cursor.is_button_pressed(1):
+                    game.pause = False
+                if cursor.is_over_object(game.botao_voltar) and cursor.is_button_pressed(1):
+                    tela = "selection"
+                    game.pause = False
+
     janela.update()

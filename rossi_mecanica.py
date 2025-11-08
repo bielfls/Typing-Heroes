@@ -234,10 +234,9 @@ while True:
     ]:
         if estadoanterior_letra==False and estadoatual_letra==True:
             seta.draw()
-            elimina.set_position(x,50)
+            elimina.set_position(x,20)
         else:
             elimina.set_position(3000,4000)
-
 
     if teclado.key_pressed("ESC"): janela.close()
 
