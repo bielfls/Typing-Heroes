@@ -17,7 +17,7 @@ lista_az2=[]; lista_am2=[]; lista_vd2=[]; lista_vm2=[]
 # variáveis de controle
 pontos=pontos2=0
 tempo=0
-vel_y=400
+vel_y=random.randint(400,600)
 contagem=[0,0,0,0]
 contagem2=[0,0,0,0]
 assets_path = os.path.join(os.path.dirname(__file__), "Assets")
@@ -114,24 +114,25 @@ while True:
         (lista_am, elimina_amarela, "p1", perfect_am, "Q", estadoanterior_q, estadoatual_q),
         (lista_az, elimina_azul, "p1", perfect_az, "E", estadoanterior_e, estadoatual_e)
     ]:
+        acertou = False
         for seta in lista[:]:
             seta.draw()
             seta.y -= vel_y * dt
             if elimina.collided(seta):
+                acertou=True
                 if player_ref=="p1":
                     if perfect.collided(seta):
-                        pontos+=200
-                    pontos+=100
+                        lifebar_verde2.y+=2
+                    lifebar_verde2.y+=1
                 lista.remove(seta)
             elif seta.y < -seta.height:
                 lista.remove(seta)
                 if player_ref=="p1":
-                    pontos2+=100
-            else:
-                if estadoatual_letra==True and estadoanterior_letra==False:
-                    if player_ref=="p1":
-                        pontos2+=100
-                        
+                    lifebar_verde.y+=1
+        
+        if estadoatual_letra and not estadoanterior_letra and not acertou:
+            if player_ref=="p1":
+                lifebar_verde.y += 1
                     
     # desenhar e mover setas jogador 2
     for lista, elimina, player_ref, perfect, letra, estadoanterior_letra, estadoatual_letra in [
@@ -140,23 +141,23 @@ while True:
         (lista_vd2, elimina_verde2, "p2", perfect_vd2, "U", estadoanterior_u, estadoatual_u),
         (lista_vm2, elimina_vermelha2, "p2", perfect_vm2, "O", estadoanterior_o, estadoatual_o)
     ]:
+        acertou = False
         for seta in lista[:]:
             seta.draw()
             seta.y -= vel_y * dt
             if elimina.collided(seta):
                 if player_ref=="p2":
                     if perfect.collided(seta):
-                        pontos2+=200
-                    pontos2+=100
+                        lifebar_verde.y+=2
+                    lifebar_verde.y+=1
                 lista.remove(seta)
             elif seta.y < -seta.height:
                 lista.remove(seta)
                 if player_ref=="p2":
-                    pontos+=100
-            else:
-                if estadoatual_letra==True and estadoanterior_letra==False:
-                    if player_ref=="p2":
-                        pontos+=100
+                    lifebar_verde2.y+=1
+        if estadoatual_letra and not estadoanterior_letra and not acertou:
+            if player_ref=="p2":
+                lifebar_verde2.y += 1
 
     # geração de novas setas
     tempo += dt
@@ -229,8 +230,7 @@ while True:
     estadoatual_u = teclado.key_pressed("U")
     estadoatual_o = teclado.key_pressed("O")
     
-    lifebar_verde.y+=pontos2*0.00001
-    lifebar_verde2.y+=pontos*0.00001
+    
 
     for s in [seta_azul,seta_verde,seta_vermelha,seta_amarela,seta_azul2,seta_verde2,seta_vermelha2,seta_amarela2]:
         s.draw()
