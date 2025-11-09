@@ -19,6 +19,11 @@ class Game:
         self.fundo_pause = Sprite(os.path.join(assets_path, "fundo_pause.png"))
         self.botao_continuar = Sprite(os.path.join(assets_path, "botao_continuar.png"))
         self.botao_voltar = Sprite(os.path.join(assets_path, "botao_voltar.png"))
+        self.um = Sprite(os.path.join(assets_path, "UM.png"))
+        self.dois = Sprite(os.path.join(assets_path, "DOIS.png"))
+        self.tres = Sprite(os.path.join(assets_path, "TRES.png"))
+        self.lutem = Sprite(os.path.join(assets_path, "LUTEM.png"))
+        self.timer = 0
         
     
     def define_personagens(self, p1_escolha, p2_escolha):
@@ -74,3 +79,18 @@ class Game:
           self.fundo_pause.draw()
           self.botao_continuar.draw()
           self.botao_voltar.draw()
+
+    def contagem(self, janela:Window):
+          self.timer += janela.delta_time()
+          if self.timer <= 1:
+                self.um.set_position(janela.width/2-self.um.width/2, janela.height/2-self.um.height/2)
+                self.um.draw()
+          elif self.timer <= 2:
+                self.dois.set_position(janela.width/2-self.um.width/2, janela.height/2-self.um.height/2)
+                self.dois.draw()
+          elif self.timer <= 3:
+                self.tres.set_position(janela.width/2-self.tres.width/2, janela.height/2-self.tres.height/2)
+                self.tres.draw()
+          elif self.timer <= 3.5:
+                self.lutem.set_position(janela.width/2-self.lutem.width/2, janela.height/2-self.lutem.height/2)
+                self.lutem.draw()

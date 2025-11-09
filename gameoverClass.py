@@ -14,6 +14,9 @@ class Gameover:
         self.botao_restart=Sprite(os.path.join(assets_path, "RESTART.png"))
         self.letreiro_gameover=Sprite(os.path.join(assets_path, "GAMEOVER.png"))
         self.fundo = Sprite(os.path.join(assets_path, "fundo_pause.png"))
+        self.letreiro_P1=Sprite(os.path.join(assets_path, "P1VENCEU.png"))
+        self.letreiro_P2=Sprite(os.path.join(assets_path, "P2VENCEU.png"))
+        self.letreiro_empate=Sprite(os.path.join(assets_path, "EMPATE.png"))
         self.vencedor = ''
 
     def desenha_gameover(self,janela:Window):
@@ -23,6 +26,17 @@ class Gameover:
         self.botao_sair.set_position(janela.width-self.botao_sair.width-15, janela.height-self.botao_sair.height -15)
 
         self.fundo.draw()
+
+        if self.vencedor == 0:
+            self.letreiro_empate.set_position(janela.width/2-self.letreiro_empate.width/2,janela.height/2-self.letreiro_empate.height/2 +50)
+            self.letreiro_empate.draw()
+        elif self.vencedor == 1:
+            self.letreiro_P1.set_position(janela.width/2-self.letreiro_P1.width/2,janela.height/2-self.letreiro_P1.height/2 +50)
+            self.letreiro_P1.draw()
+        elif self.vencedor == 2:
+            self.letreiro_P2.set_position(janela.width/2-self.letreiro_P2.width/2,janela.height/2-self.letreiro_P2.height/2 +50)
+            self.letreiro_P2.draw()
+
         self.letreiro_gameover.draw()
         self.botao_restart.draw()
         self.botao_sair.draw()

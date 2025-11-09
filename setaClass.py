@@ -96,11 +96,11 @@ class MecanicaSetas():
         self.lifebar_linha.draw()
         self.lifebar_linha2.draw()
         # desenhar e mover setas jogador 1
-        for lista, elimina, player_ref, perfect, letra, estadoanterior_letra, estadoatual_letra in [
-            (self.lista_vd, self.elimina_verde, "p1", self.perfect_vd, "R", self.estadoanterior_r, self.estadoatual_r),
-            (self.lista_vm, self.elimina_vermelha, "p1", self.perfect_vm, "W", self.estadoanterior_w, self.estadoatual_w),
-            (self.lista_am, self.elimina_amarela, "p1", self.perfect_am, "Q", self.estadoanterior_q, self.estadoatual_q),
-            (self.lista_az, self.elimina_azul, "p1", self.perfect_az, "E", self.estadoanterior_e, self.estadoatual_e)
+        for lista, elimina, player_ref, perfect, estadoanterior_letra, estadoatual_letra in [
+            (self.lista_vd, self.elimina_verde, "p1", self.perfect_vd, self.estadoanterior_r, self.estadoatual_r),
+            (self.lista_vm, self.elimina_vermelha, "p1", self.perfect_vm, self.estadoanterior_w, self.estadoatual_w),
+            (self.lista_am, self.elimina_amarela, "p1", self.perfect_am,  self.estadoanterior_q, self.estadoatual_q),
+            (self.lista_az, self.elimina_azul, "p1", self.perfect_az, self.estadoanterior_e, self.estadoatual_e)
         ]:
             acertou = False
             for seta in lista[:]:
@@ -123,17 +123,18 @@ class MecanicaSetas():
                     self.lifebar_verde.y += 1
                         
         # desenhar e mover setas jogador 2
-        for lista, elimina, player_ref, perfect, letra, estadoanterior_letra, estadoatual_letra in [
-            (self.lista_az2, self.elimina_azul2, "p2", self.perfect_az2, "P", self.estadoanterior_p, self.estadoatual_p),
-            (self.lista_am2, self.elimina_amarela2, "p2", self.perfect_am2, "I", self.estadoanterior_i, self.estadoatual_i),
-            (self.lista_vd2, self.elimina_verde2, "p2", self.perfect_vd2, "U", self.estadoanterior_u, self.estadoatual_u),
-            (self.lista_vm2, self.elimina_vermelha2, "p2", self.perfect_vm2, "O", self.estadoanterior_o, self.estadoatual_o)
+        for lista, elimina, player_ref, perfect, estadoanterior_letra, estadoatual_letra in [
+            (self.lista_az2, self.elimina_azul2, "p2", self.perfect_az2, self.estadoanterior_p, self.estadoatual_p),
+            (self.lista_am2, self.elimina_amarela2, "p2", self.perfect_am2, self.estadoanterior_i, self.estadoatual_i),
+            (self.lista_vd2, self.elimina_verde2, "p2", self.perfect_vd2, self.estadoanterior_u, self.estadoatual_u),
+            (self.lista_vm2, self.elimina_vermelha2, "p2", self.perfect_vm2, self.estadoanterior_o, self.estadoatual_o)
         ]:
             acertou = False
             for seta in lista[:]:
                 seta.draw()
                 seta.y -= self.vel_y * dt
                 if elimina.collided(seta):
+                    acertou=True
                     if player_ref=="p2":
                         if perfect.collided(seta):
                             self.lifebar_verde.y+=2
