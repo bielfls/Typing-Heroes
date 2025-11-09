@@ -74,4 +74,3 @@ class Game:
           self.fundo_pause.draw()
           self.botao_continuar.draw()
           self.botao_voltar.draw()
-          pass

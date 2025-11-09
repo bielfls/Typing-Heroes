@@ -6,6 +6,8 @@ from PPlay.animation import *
 from menuClass import Menu
 from selectionClass import Selection
 from gameClass import Game
+from setaClass import MecanicaSetas
+from gameoverClass import Gameover
 
 #fazendo a janela
 janela = Window(1152, 648)
@@ -28,7 +30,10 @@ selection = Selection()
 #definindo a tela do jogo usando a classe Game criada em "gameClass.py"
 game = Game()
 partida_inicia = False
-
+#definindo a mecanica de setas da classe criada em setaClass
+mecanica_setas = MecanicaSetas(janela)
+#definindo tela de gameover com a classe criada em gameoverClass
+gameover = Gameover()
 #loop principal do jogo
 while janela.jogo_ativo:
 
@@ -67,10 +72,26 @@ while janela.jogo_ativo:
                 if partida_inicia:
                     game.define_personagens(selection.p1_escolha, selection.p2_escolha)
                     partida_inicia = False
+                
                 game.animação_players(teclado) #AQUI ENTRARÁ A VARIAVEL QUE INDICA SE O PLAYER ACERTOU OU NAO A SETA
                 game.game_draw(janela, selection.p1_escolha, selection.p2_escolha)
+                mecanica_setas.mecanica(janela, teclado)
                 if teclado.key_pressed("ESC"):
                     game.pause = True
+
+                #ve qual dos players venceu e muda pra tela de gameover
+                if mecanica_setas.lifebar_verde.y==mecanica_setas.lifebar_verde2.y==janela.height:
+                    tela = "gameover"
+                    mecanica_setas.reinicia_variaveis(janela)
+                    gameover.vencedor = 0
+                elif mecanica_setas.lifebar_verde.y>=janela.height:
+                    tela = "gameover"
+                    mecanica_setas.reinicia_variaveis(janela)
+                    gameover.vencedor = 1
+                elif mecanica_setas.lifebar_verde2.y>=janela.height:
+                    tela = "gameover"
+                    mecanica_setas.reinicia_variaveis(janela)
+                    gameover.vencedor = 2
             else:
                 game.game_pause(janela)
                 if cursor.is_over_object(game.botao_continuar) and cursor.is_button_pressed(1):
@@ -78,5 +99,13 @@ while janela.jogo_ativo:
                 if cursor.is_over_object(game.botao_voltar) and cursor.is_button_pressed(1):
                     tela = "selection"
                     game.pause = False
+        
+        #gameover
+        case "gameover":
+            gameover.desenha_gameover(janela)
+            if cursor.is_over_object(gameover.botao_restart) and cursor.is_button_pressed(1):
+                tela = "game"
+            if cursor.is_over_object(gameover.botao_sair) and cursor.is_button_pressed(1):
+                tela = "menu"
 
     janela.update()
