@@ -54,6 +54,7 @@ while janela.jogo_ativo:
 
         #seleção de personagem
         case "selection":
+            mecanica_setas.reinicia_variaveis(janela)
             #volta pro menu se apertar esc
             if teclado.key_pressed("ESC"):
                 tela = "menu"
