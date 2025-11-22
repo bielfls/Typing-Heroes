@@ -4,6 +4,10 @@ from PPlay.gameimage import *
 from PPlay.sprite import *
 import random
 import os
+from knightP1Class import KnightP1
+from knightP2Class import KnightP2
+from samuraiP1Class import SamuraiP1
+from samuraiP2Class import SamuraiP2
 
 class MecanicaSetas():
     def __init__(self, janela:Window):
@@ -80,11 +84,85 @@ class MecanicaSetas():
         self.perfect_vd2=Sprite(os.path.join(assets_path, "pixel_preto.png")); self.perfect_vd2.set_position(self.seta_verde2.x+self.seta_verde2.width/2,self.seta_verde2.y+self.seta_verde2.height/2)
         self.perfect_vm2=Sprite(os.path.join(assets_path, "pixel_preto.png")); self.perfect_vm2.set_position(self.seta_vermelha2.x+self.seta_vermelha2.width/2,self.seta_vermelha2.y+self.seta_vermelha2.height/2)
 
+        self.usos=self.usos2=0
+        self.especial_ativo=self.especial_ativo2=False
+        self.especial_timer=self.especial_timer2=0
+        self.padronizou=self.padronizou2=True
+
+
         # inicializar fora da tela
         for e in [self.elimina_azul, self.elimina_amarela, self.elimina_verde, self.elimina_vermelha,
                 self.elimina_azul2, self.elimina_amarela2, self.elimina_verde2, self.elimina_vermelha2]:
             e.set_position(3000,4000)
-    
+
+        self.p1 = None
+        self.p2 = None
+
+    def define_personagens(self, p1_escolha, p2_escolha):
+         #definindo o personagem dos players
+         if p1_escolha == "SAMURAI":
+                self.p1 = SamuraiP1()
+         elif p1_escolha == "KNIGHT":
+                self.p1 = KnightP1()
+            
+         if p2_escolha == "SAMURAI":
+                self.p2 = SamuraiP2()
+         elif p2_escolha == "KNIGHT":
+                self.p2 = KnightP2()
+
+    def estopim_especial(self, janela: Window):
+        dt = janela.delta_time()
+
+        players = [
+            ("p1", self.lifebar_verde,  self.p1, self.usos, self.padronizou, self.especial_timer, self.especial_ativo),
+            ("p2", self.lifebar_verde2, self.p2, self.usos2, self.padronizou2, self.especial_timer2, self.especial_ativo2)
+        ]
+
+        for tag, lifebar, p, usos, padronizou, especial_timer, especial_ativo in players:
+
+            thr1 = janela.height - 0.75*self.lifebar_vermelha.height
+            thr2 = janela.height - 0.5*self.lifebar_vermelha.height
+            thr3 = janela.height - 0.25*self.lifebar_vermelha.height
+
+            # Verifica do maior threshold pro menor para evitar múltiplos incrementos no mesmo frame
+            if lifebar.y >= thr1 and usos < 1:
+                especial_ativo = True
+                usos += 1
+                especial_timer = 0.0
+                padronizou = False
+                print(f"{tag} ativou em thr1 (usos agora {usos})")
+            elif lifebar.y >= thr2 and usos < 2:
+                especial_ativo = True
+                usos += 1
+                especial_timer = 0.0
+                padronizou = False
+                print(f"{tag} ativou em thr2 (usos agora {usos})")
+            elif lifebar.y >= thr3 and usos < 3:
+                especial_ativo = True
+                usos += 1
+                especial_timer = 0.0
+                padronizou = False
+                print(f"{tag} ativou em thr3 (usos agora {usos})")
+
+            # Só conta tempo enquanto o especial estiver ativo
+            if especial_ativo:
+                especial_timer += dt
+
+                # chama o especial enquanto o timer estiver abaixo do cap
+                duracao = getattr(p, "duracao_especial", getattr(p, "especial_cap", None))
+                if especial_timer < duracao:
+                    p.especial()
+                else:
+                    especial_ativo = False
+                    padronizou = True
+                    especial_timer = 0.0
+                    p.padrao()
+
+            setattr(self, f"usos{'' if tag=='p1' else '2'}", usos)
+            setattr(self, f"especial_ativo{'' if tag=='p1' else '2'}", especial_ativo)
+            setattr(self, f"especial_timer{'' if tag=='p1' else '2'}", especial_timer)
+            setattr(self, f"padronizou{'' if tag=='p1' else '2'}", padronizou)
+
     def mecanica(self, janela:Window, teclado:keyboard):
         assets_path = os.path.join(os.path.dirname(__file__), "Assets")
         dt = janela.delta_time()
@@ -110,17 +188,17 @@ class MecanicaSetas():
                     acertou=True
                     if player_ref=="p1":
                         if perfect.collided(seta):
-                            self.lifebar_verde2.y+=2
-                        self.lifebar_verde2.y+=1
+                            self.lifebar_verde2.y+=2*self.p1.dd*self.p2.dr
+                        self.lifebar_verde2.y+=1*self.p1.dd*self.p2.dr
                     lista.remove(seta)
                 elif seta.y < -seta.height:
                     lista.remove(seta)
                     if player_ref=="p1":
-                        self.lifebar_verde.y+=1
+                        self.lifebar_verde.y+=1*self.p2.dd*self.p1.dr
             
             if estadoatual_letra and not estadoanterior_letra and not acertou:
                 if player_ref=="p1":
-                    self.lifebar_verde.y += 1
+                    self.lifebar_verde.y += 1*self.p2.dd*self.p1.dr
                         
         # desenhar e mover setas jogador 2
         for lista, elimina, player_ref, perfect, estadoanterior_letra, estadoatual_letra in [
@@ -137,16 +215,16 @@ class MecanicaSetas():
                     acertou=True
                     if player_ref=="p2":
                         if perfect.collided(seta):
-                            self.lifebar_verde.y+=2
-                        self.lifebar_verde.y+=1
+                            self.lifebar_verde.y+=2*self.p2.dd*self.p1.dr
+                        self.lifebar_verde.y+=1*self.p2.dd*self.p1.dr
                     lista.remove(seta)
                 elif seta.y < -seta.height:
                     lista.remove(seta)
                     if player_ref=="p2":
-                        self.lifebar_verde2.y+=1
+                        self.lifebar_verde2.y+=1*self.p1.dd*self.p2.dr
             if estadoatual_letra and not estadoanterior_letra and not acertou:
                 if player_ref=="p2":
-                    self.lifebar_verde2.y += 1
+                    self.lifebar_verde2.y += 1*self.p1.dd*self.p2.dr
 
         # geração de novas setas
         self.tempo += dt
@@ -201,6 +279,8 @@ class MecanicaSetas():
                     nova.set_position(janela.width - 30*2 - self.seta_amarela.width*2,648)
                     self.lista_vm2.append(nova)
 
+        self.estopim_especial(janela)
+
         self.estadoanterior_r = self.estadoatual_r
         self.estadoanterior_w = self.estadoatual_w
         self.estadoanterior_q = self.estadoatual_q
@@ -242,24 +322,6 @@ class MecanicaSetas():
                 elimina.draw()
             else:
                 elimina.set_position(3000,4000)
-        
-        
-        #---------GAMEOVER-------------#
-        #tempo_partida-=1
-        #if tempo_partida<=0:
-            #if lifebar_verde.y>lifebar_verde2.y:
-                #player1 vence
-            #elif lifebar_verde.y<lifebar_verde2.y:
-                #player2 vence
-            #else:
-                #empate
-        #elif lifebar_verde.y<=0:
-            #if lifebar_verde2.y<=0:
-                #empate
-            #else:
-                #player2 vence
-        #elif lifebar_verde2.y<=0:
-            #player1 vence
 
     def reinicia_variaveis(self, janela:Window):
         # inicializar fora da tela
