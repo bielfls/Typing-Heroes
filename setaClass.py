@@ -4,10 +4,6 @@ from PPlay.gameimage import *
 from PPlay.sprite import *
 import random
 import os
-from knightP1Class import KnightP1
-from knightP2Class import KnightP2
-from samuraiP1Class import SamuraiP1
-from samuraiP2Class import SamuraiP2
 
 class MecanicaSetas():
     def __init__(self, janela:Window):
@@ -16,6 +12,8 @@ class MecanicaSetas():
         self.lista_az2=[]; self.lista_am2=[]; self.lista_vd2=[]; self.lista_vm2=[]
 
         # variáveis de controle
+        self.combo_max=self.combo_max2=0
+        self.combo=self.combo2=0
         self.pontos=self.pontos2=0
         self.tempo=0
         self.vel_y=random.randint(400,600)
@@ -95,74 +93,6 @@ class MecanicaSetas():
                 self.elimina_azul2, self.elimina_amarela2, self.elimina_verde2, self.elimina_vermelha2]:
             e.set_position(3000,4000)
 
-        self.p1 = None
-        self.p2 = None
-
-    def define_personagens(self, p1_escolha, p2_escolha):
-         #definindo o personagem dos players
-         if p1_escolha == "SAMURAI":
-                self.p1 = SamuraiP1()
-         elif p1_escolha == "KNIGHT":
-                self.p1 = KnightP1()
-            
-         if p2_escolha == "SAMURAI":
-                self.p2 = SamuraiP2()
-         elif p2_escolha == "KNIGHT":
-                self.p2 = KnightP2()
-
-    def estopim_especial(self, janela: Window):
-        dt = janela.delta_time()
-
-        players = [
-            ("p1", self.lifebar_verde,  self.p1, self.usos, self.padronizou, self.especial_timer, self.especial_ativo),
-            ("p2", self.lifebar_verde2, self.p2, self.usos2, self.padronizou2, self.especial_timer2, self.especial_ativo2)
-        ]
-
-        for tag, lifebar, p, usos, padronizou, especial_timer, especial_ativo in players:
-
-            thr1 = janela.height - 0.75*self.lifebar_vermelha.height
-            thr2 = janela.height - 0.5*self.lifebar_vermelha.height
-            thr3 = janela.height - 0.25*self.lifebar_vermelha.height
-
-            # Verifica do maior threshold pro menor para evitar múltiplos incrementos no mesmo frame
-            if lifebar.y >= thr1 and usos < 1:
-                especial_ativo = True
-                usos += 1
-                especial_timer = 0.0
-                padronizou = False
-                print(f"{tag} ativou em thr1 (usos agora {usos})")
-            elif lifebar.y >= thr2 and usos < 2:
-                especial_ativo = True
-                usos += 1
-                especial_timer = 0.0
-                padronizou = False
-                print(f"{tag} ativou em thr2 (usos agora {usos})")
-            elif lifebar.y >= thr3 and usos < 3:
-                especial_ativo = True
-                usos += 1
-                especial_timer = 0.0
-                padronizou = False
-                print(f"{tag} ativou em thr3 (usos agora {usos})")
-
-            # Só conta tempo enquanto o especial estiver ativo
-            if especial_ativo:
-                especial_timer += dt
-
-                # chama o especial enquanto o timer estiver abaixo do cap
-                duracao = getattr(p, "duracao_especial", getattr(p, "especial_cap", None))
-                if especial_timer < duracao:
-                    p.especial()
-                else:
-                    especial_ativo = False
-                    padronizou = True
-                    especial_timer = 0.0
-                    p.padrao()
-
-            setattr(self, f"usos{'' if tag=='p1' else '2'}", usos)
-            setattr(self, f"especial_ativo{'' if tag=='p1' else '2'}", especial_ativo)
-            setattr(self, f"especial_timer{'' if tag=='p1' else '2'}", especial_timer)
-            setattr(self, f"padronizou{'' if tag=='p1' else '2'}", padronizou)
-
     def mecanica(self, janela:Window, teclado:keyboard):
         assets_path = os.path.join(os.path.dirname(__file__), "Assets")
         dt = janela.delta_time()
@@ -188,18 +118,39 @@ class MecanicaSetas():
                     acertou=True
                     if player_ref=="p1":
                         if perfect.collided(seta):
-                            self.lifebar_verde2.y+=2*self.p1.dd*self.p2.dr
-                        self.lifebar_verde2.y+=1*self.p1.dd*self.p2.dr
+                            self.lifebar_verde2.y+=2
+                            #perfeito=1
+                            #desenha sprite do perfeito
+                            #perfect_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
+                        self.lifebar_verde2.y+=1#+(combo_p1/10)
+                        #if not perfeito:
+                            #desenha sprite do good
+                            #good_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
+                        #perfeito=0
                     lista.remove(seta)
                 elif seta.y < -seta.height:
                     lista.remove(seta)
                     if player_ref=="p1":
-                        self.lifebar_verde.y+=1*self.p2.dd*self.p1.dr
+                        self.lifebar_verde.y+=1
+                        #desenha sprite do miss
+                        #miss_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
+                        combo=0
             
             if estadoatual_letra and not estadoanterior_letra and not acertou:
                 if player_ref=="p1":
-                    self.lifebar_verde.y += 1*self.p2.dd*self.p1.dr
-                        
+                    self.lifebar_verde.y += 1
+                    #desenha sprite do miss
+                    #miss_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
+                    combo=0
+
+            if self.combo>=20:
+                self.combo_max=True
+            else:
+                self.combo_max=False
+            if acertou:
+                if not self.combo_max:
+                    self.combo+=1
+
         # desenhar e mover setas jogador 2
         for lista, elimina, player_ref, perfect, estadoanterior_letra, estadoatual_letra in [
             (self.lista_az2, self.elimina_azul2, "p2", self.perfect_az2, self.estadoanterior_p, self.estadoatual_p),
@@ -215,53 +166,79 @@ class MecanicaSetas():
                     acertou=True
                     if player_ref=="p2":
                         if perfect.collided(seta):
-                            self.lifebar_verde.y+=2*self.p2.dd*self.p1.dr
-                        self.lifebar_verde.y+=1*self.p2.dd*self.p1.dr
+                            self.lifebar_verde.y+=2
+                            #perfeito=1
+                            #desenha sprite do perfeito
+                            #perfect_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
+                        self.lifebar_verde.y+=1#+(combo_p2/10)
+                        #if not perfeito:
+                            #desenha sprite do good
+                            #good_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
+                        #perfeito=0
                     lista.remove(seta)
                 elif seta.y < -seta.height:
                     lista.remove(seta)
                     if player_ref=="p2":
-                        self.lifebar_verde2.y+=1*self.p1.dd*self.p2.dr
+                        self.lifebar_verde2.y+=1
+                        #desenha sprite do miss
+                        #miss_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
+                        self.combo2=0
+
             if estadoatual_letra and not estadoanterior_letra and not acertou:
                 if player_ref=="p2":
-                    self.lifebar_verde2.y += 1*self.p1.dd*self.p2.dr
+                    self.lifebar_verde2.y += 1
+                    #desenha sprite do miss
+                    #miss_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
+                    self.combo2=0
+
+            if self.combo2>=20:
+                self.combo_max2=True
+            else:
+                self.combo_max2=False
+            if acertou:
+                if not self.combo_max2:
+                    self.combo2+=1
+
 
         # geração de novas setas
         self.tempo += dt
         if self.tempo >= random.uniform(0.4, 0.7):
             self.tempo = 0
-            qtd = len(self.lista_az)+len(self.lista_am)+len(self.lista_vd)+len(self.lista_vm)
-            qtd2 = len(self.lista_az2)+len(self.lista_am2)+len(self.lista_vd2)+len(self.lista_vm2)
 
-            if qtd < 7:
-                if qtd%2==0:
-                    gerador = self.contagem.index(min(self.contagem)) + 1 
-                else:
-                    gerador=random.randint(1,4)
-                self.contagem[gerador-1] += 1
-                if gerador==1:
-                    nova=Sprite(os.path.join(assets_path, "setaazul.png"))
-                    nova.set_position(30*3+self.seta_amarela.width*2,648)
+            setas_simultaneas = random.randint(1, 3)
+
+            tipos = random.sample([1, 2, 3, 4], setas_simultaneas)
+
+            for gerador in tipos:
+
+                self.contagem[gerador - 1] += 1
+
+                if gerador == 1:
+                    nova = Sprite(os.path.join(assets_path, "setaazul.png"))
+                    nova.set_position(30*3 + self.seta_amarela.width*2, 648)
                     self.lista_az.append(nova)
-                elif gerador==2:
-                    nova=Sprite(os.path.join(assets_path, "setaamarela.png"))
-                    nova.set_position(30,648)
+
+                elif gerador == 2:
+                    nova = Sprite(os.path.join(assets_path, "setaamarela.png"))
+                    nova.set_position(30, 648)
                     self.lista_am.append(nova)
-                elif gerador==3:
-                    nova=Sprite(os.path.join(assets_path, "setaverde.png"))
-                    nova.set_position(30*4+self.seta_amarela.width*3,648)
+
+                elif gerador == 3:
+                    nova = Sprite(os.path.join(assets_path, "setaverde.png"))
+                    nova.set_position(30*4 + self.seta_amarela.width*3, 648)
                     self.lista_vd.append(nova)
-                elif gerador==4:
-                    nova=Sprite(os.path.join(assets_path, "setavermelha.png"))
-                    nova.set_position(30*2+self.seta_amarela.width,648)
+
+                elif gerador == 4:
+                    nova = Sprite(os.path.join(assets_path, "setavermelha.png"))
+                    nova.set_position(30*2 + self.seta_amarela.width, 648)
                     self.lista_vm.append(nova)
 
-            if qtd2 < 7:
-                if qtd2%2==0:
-                    gerador2 = self.contagem2.index(min(self.contagem2)) + 1 
-                else:
-                    gerador2=random.randint(1,4)
-                self.contagem2[gerador2-1] += 1
+            tipos2 = random.sample([1, 2, 3, 4], setas_simultaneas)
+
+            for gerador2 in tipos2:   
+
+                self.contagem[gerador - 1] += 1
+
                 if gerador2==1: 
                     nova=Sprite(os.path.join(assets_path, "setaazul.png"))
                     nova.set_position(janela.width - 30*3 - self.seta_amarela.width*3,648)
@@ -278,8 +255,6 @@ class MecanicaSetas():
                     nova=Sprite(os.path.join(assets_path, "setavermelha.png"))
                     nova.set_position(janela.width - 30*2 - self.seta_amarela.width*2,648)
                     self.lista_vm2.append(nova)
-
-        self.estopim_especial(janela)
 
         self.estadoanterior_r = self.estadoatual_r
         self.estadoanterior_w = self.estadoatual_w

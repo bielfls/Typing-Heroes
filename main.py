@@ -75,7 +75,6 @@ while janela.jogo_ativo:
                 if not game.pause:
                     if entrou_game:
                         game.define_personagens(selection.p1_escolha, selection.p2_escolha)
-                        mecanica_setas.define_personagens(selection.p1_escolha, selection.p2_escolha)
                         entrou_game = False
                     
                     game.animação_players(teclado) #AQUI ENTRARÁ A VARIAVEL QUE INDICA SE O PLAYER ACERTOU OU NAO A SETA

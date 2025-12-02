@@ -38,20 +38,6 @@ class SamuraiP2:
         #teclado pra controle das animacoes no meio da partida (vou usar na função de comportamento dos players na partida)
         self.teclado = Window.get_keyboard()
 
-        self.dr=1
-        self.dd=1
-        self.duracao_especial=5
-        self.timer_especial=0
-
-    def especial(self):
-        self.dd=3
-        self.dr=2
-
-    def padrao(self):
-        self.dd=1
-        self.dr=1
-        self.timer_especial=0
-
     def ataque_1(self):
         #muda o estado para ataque
         if self.estado == "IDLE":
