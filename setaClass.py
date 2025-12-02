@@ -82,10 +82,8 @@ class MecanicaSetas():
         self.perfect_vd2=Sprite(os.path.join(assets_path, "pixel_preto.png")); self.perfect_vd2.set_position(self.seta_verde2.x+self.seta_verde2.width/2,self.seta_verde2.y+self.seta_verde2.height/2)
         self.perfect_vm2=Sprite(os.path.join(assets_path, "pixel_preto.png")); self.perfect_vm2.set_position(self.seta_vermelha2.x+self.seta_vermelha2.width/2,self.seta_vermelha2.y+self.seta_vermelha2.height/2)
 
-        self.usos=self.usos2=0
-        self.especial_ativo=self.especial_ativo2=False
-        self.especial_timer=self.especial_timer2=0
-        self.padronizou=self.padronizou2=True
+        self.combo_p1=self.combo_p2=0
+
 
 
         # inicializar fora da tela
@@ -122,7 +120,7 @@ class MecanicaSetas():
                             #perfeito=1
                             #desenha sprite do perfeito
                             #perfect_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
-                        self.lifebar_verde2.y+=1#+(combo_p1/10)
+                        self.lifebar_verde2.y+=1+(self.combo_p1/10)
                         #if not perfeito:
                             #desenha sprite do good
                             #good_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
@@ -134,27 +132,27 @@ class MecanicaSetas():
                         self.lifebar_verde.y+=1
                         #desenha sprite do miss
                         #miss_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
-                        combo=0
+                        self.combo_p1=0
             
             if estadoatual_letra and not estadoanterior_letra and not acertou:
                 if player_ref=="p1":
                     self.lifebar_verde.y += 1
                     #desenha sprite do miss
                     #miss_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
-                    combo=0
+                    self.combo_p1=0
 
-            if self.combo>=20:
+            if self.combo_p1>=20:
                 self.combo_max=True
             else:
                 self.combo_max=False
             if acertou:
                 if not self.combo_max:
-                    self.combo+=1
+                    self.combo_p1+=1
 
         # desenhar e mover setas jogador 2
         for lista, elimina, player_ref, perfect, estadoanterior_letra, estadoatual_letra in [
-            (self.lista_az2, self.elimina_azul2, "p2", self.perfect_az2, self.estadoanterior_p, self.estadoatual_p),
-            (self.lista_am2, self.elimina_amarela2, "p2", self.perfect_am2, self.estadoanterior_i, self.estadoatual_i),
+            (self.lista_az2, self.elimina_azul2, "p2", self.perfect_az2, self.estadoanterior_i, self.estadoatual_i),
+            (self.lista_am2, self.elimina_amarela2, "p2", self.perfect_am2, self.estadoanterior_p, self.estadoatual_p),
             (self.lista_vd2, self.elimina_verde2, "p2", self.perfect_vd2, self.estadoanterior_u, self.estadoatual_u),
             (self.lista_vm2, self.elimina_vermelha2, "p2", self.perfect_vm2, self.estadoanterior_o, self.estadoatual_o)
         ]:
@@ -170,7 +168,7 @@ class MecanicaSetas():
                             #perfeito=1
                             #desenha sprite do perfeito
                             #perfect_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
-                        self.lifebar_verde.y+=1#+(combo_p2/10)
+                        self.lifebar_verde.y+=1+(self.combo_p2/10)
                         #if not perfeito:
                             #desenha sprite do good
                             #good_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
@@ -182,22 +180,22 @@ class MecanicaSetas():
                         self.lifebar_verde2.y+=1
                         #desenha sprite do miss
                         #miss_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
-                        self.combo2=0
+                        self.combo_p2=0
 
             if estadoatual_letra and not estadoanterior_letra and not acertou:
                 if player_ref=="p2":
                     self.lifebar_verde2.y += 1
                     #desenha sprite do miss
                     #miss_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
-                    self.combo2=0
+                    self.combo_p2=0
 
-            if self.combo2>=20:
+            if self.combo_p2>=20:
                 self.combo_max2=True
             else:
                 self.combo_max2=False
             if acertou:
                 if not self.combo_max2:
-                    self.combo2+=1
+                    self.combo_p2+=1
 
 
         # geração de novas setas
@@ -297,6 +295,9 @@ class MecanicaSetas():
                 elimina.draw()
             else:
                 elimina.set_position(3000,4000)
+
+        janela.draw_text(str(self.combo_p1), 20, 60, size=20, color=(255, 255, 255))
+        janela.draw_text(str(self.combo_p2), 600, 60, size=50, color=(255, 255, 255))
 
     def reinicia_variaveis(self, janela:Window):
         # inicializar fora da tela
