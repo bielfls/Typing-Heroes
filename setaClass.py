@@ -82,21 +82,56 @@ class MecanicaSetas():
         self.perfect_vd2=Sprite(os.path.join(assets_path, "pixel_preto.png")); self.perfect_vd2.set_position(self.seta_verde2.x+self.seta_verde2.width/2,self.seta_verde2.y+self.seta_verde2.height/2)
         self.perfect_vm2=Sprite(os.path.join(assets_path, "pixel_preto.png")); self.perfect_vm2.set_position(self.seta_vermelha2.x+self.seta_vermelha2.width/2,self.seta_vermelha2.y+self.seta_vermelha2.height/2)
 
-        self.sprite_perfect1=Sprite(os.path.join(assets_path, "perfect.png"))
-        self.sprite_good1=Sprite(os.path.join(assets_path, "good.png"))
-        self.sprite_miss1=Sprite(os.path.join(assets_path, "miss.png"))
-        self.sprite_perfect1.set_position(15, 100)
-        self.sprite_good1.set_position(15, 100)
-        self.sprite_miss1.set_position(15, 100)
+        self.perfeito_vd=self.perfeito_vd2=Sprite(os.path.join(assets_path, "perfect.png"))
+        self.perfeito_vm=self.perfeito_vm2=Sprite(os.path.join(assets_path, "perfect.png"))
+        self.perfeito_am=self.perfeito_am2=Sprite(os.path.join(assets_path, "perfect.png"))
+        self.perfeito_az=self.perfeito_az2=Sprite(os.path.join(assets_path, "perfect.png"))
 
-        self.sprite_perfect2=Sprite(os.path.join(assets_path, "perfect.png"))
-        self.sprite_good2=Sprite(os.path.join(assets_path, "good.png"))
-        self.sprite_miss2=Sprite(os.path.join(assets_path, "miss.png"))
-        self.sprite_perfect2.set_position(janela.width-15, 100)
-        self.sprite_good2.set_position(janela.width-15, 100)
-        self.sprite_miss2.set_position(janela.width-15, 100)
+        self.good_vd=self.good_vd2=Sprite(os.path.join(assets_path, "good.png"))
+        self.good_vm=self.good_vm2=Sprite(os.path.join(assets_path, "good.png"))
+        self.good_am=self.good_am2=Sprite(os.path.join(assets_path, "good.png"))
+        self.good_az=self.good_az2=Sprite(os.path.join(assets_path, "good.png"))
 
-        self.perfeito=self.perfeito2=0
+        self.miss_vd=self.miss_vd2=Sprite(os.path.join(assets_path, "miss.png")) 
+        self.miss_vm=self.miss_vm2=Sprite(os.path.join(assets_path, "miss.png"))
+        self.miss_am=self.miss_am2=Sprite(os.path.join(assets_path, "miss.png"))
+        self.miss_az=self.miss_az2=Sprite(os.path.join(assets_path, "miss.png"))
+
+        sprites = [
+            self.perfeito_vd, self.perfeito_vm, self.perfeito_am, self.perfeito_az,
+            self.perfeito_vd2, self.perfeito_vm2, self.perfeito_am2, self.perfeito_az2,
+            
+            self.good_vd, self.good_vm, self.good_am, self.good_az,
+            self.good_vd2, self.good_vm2, self.good_am2, self.good_az2,
+            
+            self.miss_vd, self.miss_vm, self.miss_am, self.miss_az,
+            self.miss_vd2, self.miss_vm2, self.miss_am2, self.miss_az2
+        ]
+
+        for sp in sprites:
+            sp.set_position(4000, 3000)
+
+        self.miss_vd_bool=self.good_vd_bool=self.perfeito_vd_bool=False
+        self.miss_vm_bool=self.good_vm_bool=self.perfeito_vm_bool=False
+        self.miss_am_bool=self.good_am_bool=self.perfeito_am_bool=False
+        self.miss_az_bool=self.good_az_bool=self.perfeito_az_bool=False
+
+        self.miss_vd2_bool=self.good_vd2_bool=self.perfeito_vd2_bool=False
+        self.miss_vm2_bool=self.good_vm2_bool=self.perfeito_vm2_bool=False
+        self.miss_am2_bool=self.good_am2_bool=self.perfeito_am2_bool=False
+        self.miss_az2_bool=self.good_az2_bool=self.perfeito_az2_bool=False
+
+        self.tempo_miss_vd=self.tempo_good_vd=self.tempo_perfeito_vd=0
+        self.tempo_miss_vm=self.tempo_good_vm=self.tempo_perfeito_vm=0
+        self.tempo_miss_am=self.tempo_good_am=self.tempo_perfeito_am=0
+        self.tempo_miss_az=self.tempo_good_az=self.tempo_perfeito_az=0
+
+        self.tempo_miss_vd2=self.tempo_good_vd2=self.tempo_perfeito_vd2=0
+        self.tempo_miss_vm2=self.tempo_good_vm2=self.tempo_perfeito_vm2=0
+        self.tempo_miss_am2=self.tempo_good_am2=self.tempo_perfeito_am2=0
+        self.tempo_miss_az2=self.tempo_good_az2=self.tempo_perfeito_az2=0
+
+        self.p=self.p2=False
 
         self.combo_p1=self.combo_p2=0
 
@@ -125,146 +160,295 @@ class MecanicaSetas():
         self.lifebar_linha.draw()
         self.lifebar_linha2.draw()
         # desenhar e mover setas jogador 1
-        for lista, elimina, player_ref, perfect, estadoanterior_letra, estadoatual_letra in [
-            (self.lista_vd, self.elimina_verde, "p1", self.perfect_vd, self.estadoanterior_r, self.estadoatual_r),
-            (self.lista_vm, self.elimina_vermelha, "p1", self.perfect_vm, self.estadoanterior_w, self.estadoatual_w),
-            (self.lista_am, self.elimina_amarela, "p1", self.perfect_am,  self.estadoanterior_q, self.estadoatual_q),
-            (self.lista_az, self.elimina_azul, "p1", self.perfect_az, self.estadoanterior_e, self.estadoatual_e)
+        for lista, elimina, player_ref, perfect, estadoanterior_letra, estadoatual_letra, miss_name, good_name, perfeito_name in [
+            (self.lista_vd, self.elimina_verde, "p1", self.perfect_vd, self.estadoanterior_r, self.estadoatual_r, "miss_vd_bool", "good_vd_bool", "perfeito_vd_bool"),
+            (self.lista_vm, self.elimina_vermelha, "p1", self.perfect_vm, self.estadoanterior_w, self.estadoatual_w, "miss_vm_bool", "good_vm_bool", "perfeito_vm_bool"),
+            (self.lista_am, self.elimina_amarela, "p1", self.perfect_am, self.estadoanterior_q, self.estadoatual_q, "miss_am_bool", "good_am_bool", "perfeito_am_bool"),
+            (self.lista_az, self.elimina_azul, "p1", self.perfect_az, self.estadoanterior_e, self.estadoatual_e, "miss_az_bool", "good_az_bool", "perfeito_az_bool")
         ]:
+
             acertou = False
             for seta in lista[:]:
                 seta.draw()
                 seta.y -= self.vel_y * dt
+                
                 if elimina.collided(seta):
-                    acertou=True
-                    if player_ref=="p1":
+                    acertou = True
+                    
+                    if player_ref == "p1":
                         if perfect.collided(seta):
-                            self.lifebar_verde2.y+=2
-                            self.perfeito=1
-                            #desenha sprite do perfeito
-                            self.sprite_perfect1.draw()
-                            #perfect_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
-                        self.lifebar_verde2.y+=1+(self.combo_p1/10)
-                        if not self.perfeito:
-                            #desenha sprite do good
-                            self.sprite_good1.draw()
-                            #good_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
-                            self.perfeito=0
+                            self.lifebar_verde2.y += 2
+                            self.p = True
+                            setattr(self, perfeito_name, True)
+
+                        self.lifebar_verde2.y += 1 + (self.combo_p1 / 10)
+
+                        if not self.p:
+                            setattr(self, good_name, True)
+
+                        self.p = False
+                    
                     lista.remove(seta)
+
                 elif seta.y < -seta.height:
                     lista.remove(seta)
-                    if player_ref=="p1":
-                        self.lifebar_verde.y+=1
-                        #desenha sprite do miss
-                        self.sprite_miss1.draw()
-                        #miss_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
-                        self.combo_p1=0
-            
-            if estadoatual_letra and not estadoanterior_letra and not acertou:
-                if player_ref=="p1":
-                    self.lifebar_verde.y += 1
-                    #desenha sprite do miss
-                    #miss_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho(o quanto for ficar bom))
-                    self.combo_p1=0
+                    if player_ref == "p1":
+                        self.lifebar_verde.y += 1
+                        setattr(self, miss_name, True)
+                        self.combo_p1 = 0
 
-            if self.combo_p1>=20:
-                self.combo_max=True
-                #self.combo_20x_sprite.set_position(50,400)
-                #self.combo_5x_sprite.set_position(3000,4000)
-                #self.combo_10x_sprite.set_position(3000,4000)
+            # tecla apertada e não acertou
+            if estadoatual_letra and not estadoanterior_letra and not acertou:
+                if player_ref == "p1":
+                    self.lifebar_verde.y += 1
+                    setattr(self, miss_name, True)
+                    self.combo_p1 = 0
+
+
+                if self.combo_p1>=20:
+                    self.combo_max=True
+                    #self.combo_20x_sprite.set_position(50,400)
+                    #self.combo_5x_sprite.set_position(3000,4000)
+                    #self.combo_10x_sprite.set_position(3000,4000)
+                else:
+                    self.combo_max=False
+                if acertou:
+                    if not self.combo_max:
+                        self.combo_p1+=1
+                #if self.combo_p2<5:
+                    #self.combo_5x_sprite.set_position(3000,4000)
+                    #self.combo_10x_sprite.set_position(3000,4000)
+                    #self.combo_20x_sprite.set_position(3000,4000)
+                #if 10>=self.combo_p2>=5:
+                    #self.combo_5x_sprite.set_position(50,400)
+                #if 10<=self.combo_p2<20:
+                    #self.combo_5x_sprite.set_position(3000,4000)
+                    #self.combo_10x_sprite.set_position(50,400)
+
+            #self.combo_5x_sprite.draw()
+            #self.combo_10x_sprite.draw()
+            #self.combo_20x_sprite.draw()
+
+        for lista, elimina, player_ref, perfect, estadoanterior_letra, estadoatual_letra, miss_name, good_name, perfeito_name in [
+            (self.lista_az2, self.elimina_azul2, "p2", self.perfect_az2, self.estadoanterior_i, self.estadoatual_i, "miss_az2_bool", "good_az2_bool", "perfeito_az2_bool"),
+            (self.lista_am2, self.elimina_amarela2, "p2", self.perfect_am2, self.estadoanterior_p, self.estadoatual_p, "miss_am2_bool", "good_am2_bool", "perfeito_am2_bool"),
+            (self.lista_vd2, self.elimina_verde2, "p2", self.perfect_vd2, self.estadoanterior_u, self.estadoatual_u, "miss_vd2_bool", "good_vd2_bool", "perfeito_vd2_bool"),
+            (self.lista_vm2, self.elimina_vermelha2, "p2", self.perfect_vm2, self.estadoanterior_o, self.estadoatual_o, "miss_vm2_bool", "good_vm2_bool", "perfeito_vm2_bool")
+        ]:
+
+            acertou = False
+
+            for seta in lista[:]:
+                seta.draw()
+                seta.y -= self.vel_y * dt
+
+                if elimina.collided(seta):
+                    acertou = True
+
+                    if player_ref == "p2":
+
+                        # perfect hit
+                        if perfect.collided(seta):
+                            self.lifebar_verde.y += 2
+                            self.p2 = True
+                            setattr(self, perfeito_name, True)
+
+                        self.lifebar_verde.y += 1 + (self.combo_p2 / 10)
+
+                        # good hit (não foi perfect)
+                        if not self.p2:
+                            setattr(self, good_name, True)
+
+                        self.p2 = False
+
+                    lista.remove(seta)
+
+                # seta saiu da tela -> miss
+                elif seta.y < -seta.height:
+                    lista.remove(seta)
+
+                    if player_ref == "p2":
+                        self.lifebar_verde2.y += 1
+                        setattr(self, miss_name, True)
+                        self.combo_p2 = 0
+
+            # tecla apertada sem acertar seta = miss
+            if estadoatual_letra and not estadoanterior_letra and not acertou:
+                if player_ref == "p2":
+                    self.lifebar_verde2.y += 1
+                    setattr(self, miss_name, True)
+                    self.combo_p2 = 0
+
+            # verificar combos
+            if self.combo_p2 >= 20:
+                self.combo_max2 = True
             else:
-                self.combo_max=False
+                self.combo_max2 = False
+
             if acertou:
-                if not self.combo_max:
-                    self.combo_p1+=1
+                if not self.combo_max2:
+                    self.combo_p2 += 1
+
             #if self.combo_p2<5:
                 #self.combo_5x_sprite.set_position(3000,4000)
                 #self.combo_10x_sprite.set_position(3000,4000)
                 #self.combo_20x_sprite.set_position(3000,4000)
-            #if 10>=self.combo_p2>=5:
+             #if 10>=self.combo_p2>=5:
                 #self.combo_5x_sprite.set_position(50,400)
             #if 10<=self.combo_p2<20:
                 #self.combo_5x_sprite.set_position(3000,4000)
                 #self.combo_10x_sprite.set_position(50,400)
 
-        #self.combo_5x_sprite.draw()
-        #self.combo_10x_sprite.draw()
-        #self.combo_20x_sprite.draw()
+            #self.combo_5x_sprite.draw()
+            #self.combo_10x_sprite.draw()
+            #self.combo_20x_sprite.draw()
 
 
-        # desenhar e mover setas jogador 2
-        for lista, elimina, player_ref, perfect, estadoanterior_letra, estadoatual_letra in [
-            (self.lista_az2, self.elimina_azul2, "p2", self.perfect_az2, self.estadoanterior_i, self.estadoatual_i),
-            (self.lista_am2, self.elimina_amarela2, "p2", self.perfect_am2, self.estadoanterior_p, self.estadoatual_p),
-            (self.lista_vd2, self.elimina_verde2, "p2", self.perfect_vd2, self.estadoanterior_u, self.estadoatual_u),
-            (self.lista_vm2, self.elimina_vermelha2, "p2", self.perfect_vm2, self.estadoanterior_o, self.estadoatual_o)
-        ]:
-            acertou = False
-            for seta in lista[:]:
-                seta.draw()
-                seta.y -= self.vel_y * dt
-                if elimina.collided(seta):
-                    acertou=True
-                    if player_ref=="p2":
-                        if perfect.collided(seta):
-                            self.lifebar_verde.y+=2
-                            self.perfeito2=1
-                            #desenha sprite do perfeito
-                            self.sprite_perfect2.draw()
-                            #perfect_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
-                        self.lifebar_verde.y+=1+(self.combo_p2/10)
-                        if not self.perfeito2:
-                            #desenha sprite do good
-                            self.sprite_good2.draw()
-                            #good_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
-                            self.perfeito2=0
-                    lista.remove(seta)
-                elif seta.y < -seta.height:
-                    lista.remove(seta)
-                    if player_ref=="p2":
-                        self.lifebar_verde2.y+=1
-                        #desenha sprite do miss
-                        self.sprite_miss2.draw()
-                        #miss_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
-                        self.combo_p2=0
+        efeitos = [
+            {
+                "miss": self.miss_vd,
+                "good": self.good_vd,
+                "perfeito": self.perfeito_vd,
+                "miss_bool": "miss_vd_bool",
+                "good_bool": "good_vd_bool",
+                "perfeito_bool": "perfeito_vd_bool",
+                "tempo_miss": "tempo_miss_vd",
+                "tempo_good": "tempo_good_vd",
+                "tempo_perfeito": "tempo_perfeito_vd",
+                "seta": self.seta_verde
+            },
+            {
+                "miss": self.miss_vm,
+                "good": self.good_vm,
+                "perfeito": self.perfeito_vm,
+                "miss_bool": "miss_vm_bool",
+                "good_bool": "good_vm_bool",
+                "perfeito_bool": "perfeito_vm_bool",
+                "tempo_miss": "tempo_miss_vm",
+                "tempo_good": "tempo_good_vm",
+                "tempo_perfeito": "tempo_perfeito_vm",
+                "seta": self.seta_vermelha
+            },
+            {
+                "miss": self.miss_am,
+                "good": self.good_am,
+                "perfeito": self.perfeito_am,
+                "miss_bool": "miss_am_bool",
+                "good_bool": "good_am_bool",
+                "perfeito_bool": "perfeito_am_bool",
+                "tempo_miss": "tempo_miss_am",
+                "tempo_good": "tempo_good_am",
+                "tempo_perfeito": "tempo_perfeito_am",
+                "seta": self.seta_amarela
+            },
+            {
+                "miss": self.miss_az,
+                "good": self.good_az,
+                "perfeito": self.perfeito_az,
+                "miss_bool": "miss_az_bool",
+                "good_bool": "good_az_bool",
+                "perfeito_bool": "perfeito_az_bool",
+                "tempo_miss": "tempo_miss_az",
+                "tempo_good": "tempo_good_az",
+                "tempo_perfeito": "tempo_perfeito_az",
+                "seta": self.seta_azul
+            },
+            {
+                "miss": self.miss_vd2,
+                "good": self.good_vd2,
+                "perfeito": self.perfeito_vd2,
+                "miss_bool": "miss_vd2_bool",
+                "good_bool": "good_vd2_bool",
+                "perfeito_bool": "perfeito_vd2_bool",
+                "tempo_miss": "tempo_miss_vd2",
+                "tempo_good": "tempo_good_vd2",
+                "tempo_perfeito": "tempo_perfeito_vd2",
+                "seta": self.seta_verde2
+            },
+            {
+                "miss": self.miss_vm2,
+                "good": self.good_vm2,
+                "perfeito": self.perfeito_vm2,
+                "miss_bool": "miss_vm2_bool",
+                "good_bool": "good_vm2_bool",
+                "perfeito_bool": "perfeito_vm2_bool",
+                "tempo_miss": "tempo_miss_vm2",
+                "tempo_good": "tempo_good_vm2",
+                "tempo_perfeito": "tempo_perfeito_vm2",
+                "seta": self.seta_vermelha2
+            },
+            {
+                "miss": self.miss_am2,
+                "good": self.good_am2,
+                "perfeito": self.perfeito_am2,
+                "miss_bool": "miss_am2_bool",
+                "good_bool": "good_am2_bool",
+                "perfeito_bool": "perfeito_am2_bool",
+                "tempo_miss": "tempo_miss_am2",
+                "tempo_good": "tempo_good_am2",
+                "tempo_perfeito": "tempo_perfeito_am2",
+                "seta": self.seta_amarela2
+            },
+            {
+                "miss": self.miss_az2,
+                "good": self.good_az2,
+                "perfeito": self.perfeito_az2,
+                "miss_bool": "miss_az2_bool",
+                "good_bool": "good_az2_bool",
+                "perfeito_bool": "perfeito_az2_bool",
+                "tempo_miss": "tempo_miss_az2",
+                "tempo_good": "tempo_good_az2",
+                "tempo_perfeito": "tempo_perfeito_az2",
+                "seta": self.seta_azul2
+            }
+        ]
 
-            if estadoatual_letra and not estadoanterior_letra and not acertou:
-                if player_ref=="p2":
-                    self.lifebar_verde2.y += 1
-                    #desenha sprite do miss
-                    #miss_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
-                    self.combo_p2=0
 
-            if self.combo_p2>=20:
-                self.combo_max2=True
-                #self.combo_20x_sprite2.set_position(700,400)
-                #self.combo_5x_sprite2.set_position(3000,4000)
-                #self.combo_10x_sprite2.set_position(3000,4000)
-            else:
-                self.combo_max2=False
-            if acertou:
-                if not self.combo_max2:
-                    self.combo_p2+=1
-            #if self.combo_p2<5:
-                #self.combo_5x_sprite2.set_position(3000,4000)
-                #self.combo_10x_sprite2.set_position(3000,4000)
-                #self.combo_20x_sprite2.set_position(3000,4000)
-            #if 10>=self.combo_p2>=5:
-                #self.combo_5x_sprite2.set_position(700,400)
-            #if 10<=self.combo_p2<20:
-                #self.combo_5x_sprite2.set_position(3000,4000)
-                #self.combo_10x_sprite2.set_position(700,400)
+        for ef in efeitos:
 
-        #self.combo_5x_sprite2.draw()
-        #self.combo_10x_sprite2.draw()
-        #self.combo_20x_sprite2.draw()
+            # MISS
+            if getattr(self, ef["miss_bool"]):
+                setattr(self, ef["tempo_miss"], getattr(self, ef["tempo_miss"]) + dt)
 
+                if getattr(self, ef["tempo_miss"]) <= 0.2:
+                    ef["miss"].set_position(ef["seta"].x, ef["seta"].y + ef["seta"].height + 10)
+                else:
+                    setattr(self, ef["tempo_miss"], 0)
+                    setattr(self, ef["miss_bool"], False)
+                    ef["miss"].set_position(3000, 4000)
+
+            # GOOD
+            if getattr(self, ef["good_bool"]):
+                setattr(self, ef["tempo_good"], getattr(self, ef["tempo_good"]) + dt)
+
+                if getattr(self, ef["tempo_good"]) <= 0.2:
+                    ef["good"].set_position(ef["seta"].x, ef["seta"].y + ef["seta"].height + 10)
+                else:
+                    setattr(self, ef["tempo_good"], 0)
+                    setattr(self, ef["good_bool"], False)
+                    ef["good"].set_position(3000, 4000)
+
+            # PERFEITO
+            if getattr(self, ef["perfeito_bool"]):
+                setattr(self, ef["tempo_perfeito"], getattr(self, ef["tempo_perfeito"]) + dt)
+
+                if getattr(self, ef["tempo_perfeito"]) <= 0.2:
+                    ef["perfeito"].set_position(ef["seta"].x, ef["seta"].y + ef["seta"].height + 10)
+                else:
+                    setattr(self, ef["tempo_perfeito"], 0)
+                    setattr(self, ef["perfeito_bool"], False)
+                    ef["perfeito"].set_position(3000, 4000)
+
+            ef["miss"].draw()
+            ef["good"].draw()
+            ef["perfeito"].draw()
+        
         # geração de novas setas
         self.tempo += dt
         if self.tempo >= random.uniform(0.4, 0.7):
             self.tempo = 0
 
-            setas_simultaneas = random.randint(1, 3)
+            setas_simultaneas = random.randint(1, 2)
 
             tipos = random.sample([1, 2, 3, 4], setas_simultaneas)
 
@@ -366,6 +550,26 @@ class MecanicaSetas():
                 self.elimina_azul2, self.elimina_amarela2, self.elimina_verde2, self.elimina_vermelha2]:
             e.set_position(3000,4000)
         
+        self.miss_vd_bool=self.good_vd_bool=self.perfeito_vd_bool=False
+        self.miss_vm_bool=self.good_vm_bool=self.perfeito_vm_bool=False
+        self.miss_am_bool=self.good_am_bool=self.perfeito_am_bool=False
+        self.miss_az_bool=self.good_az_bool=self.perfeito_az_bool=False
+
+        self.miss_vd2_bool=self.good_vd2_bool=self.perfeito_vd2_bool=False
+        self.miss_vm2_bool=self.good_vm2_bool=self.perfeito_vm2_bool=False
+        self.miss_am2_bool=self.good_am2_bool=self.perfeito_am2_bool=False
+        self.miss_az2_bool=self.good_az2_bool=self.perfeito_az2_bool=False
+
+        self.tempo_miss_vd=self.tempo_good_vd=self.tempo_perfeito_vd=0
+        self.tempo_miss_vm=self.tempo_good_vm=self.tempo_perfeito_vm=0
+        self.tempo_miss_am=self.tempo_good_am=self.tempo_perfeito_am=0
+        self.tempo_miss_az=self.tempo_good_az=self.tempo_perfeito_az=0
+
+        self.tempo_miss_vd2=self.tempo_good_vd2=self.tempo_perfeito_vd2=0
+        self.tempo_miss_vm2=self.tempo_good_vm2=self.tempo_perfeito_vm2=0
+        self.tempo_miss_am2=self.tempo_good_am2=self.tempo_perfeito_am2=0
+        self.tempo_miss_az2=self.tempo_good_az2=self.tempo_perfeito_az2=0
+
         self.estadoanterior_p=self.estadoatual_p=False
         self.estadoanterior_o=self.estadoatual_o=False
         self.estadoanterior_i=self.estadoatual_i=False
@@ -380,6 +584,8 @@ class MecanicaSetas():
 
         self.contagem=[0,0,0,0]
         self.contagem2=[0,0,0,0]
+
+        self.combo=self.combo2=0
 
         # listas de setas
         self.lista_az=[]; self.lista_am=[]; self.lista_vd=[]; self.lista_vm=[]
