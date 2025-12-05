@@ -82,8 +82,17 @@ class MecanicaSetas():
         self.perfect_vd2=Sprite(os.path.join(assets_path, "pixel_preto.png")); self.perfect_vd2.set_position(self.seta_verde2.x+self.seta_verde2.width/2,self.seta_verde2.y+self.seta_verde2.height/2)
         self.perfect_vm2=Sprite(os.path.join(assets_path, "pixel_preto.png")); self.perfect_vm2.set_position(self.seta_vermelha2.x+self.seta_vermelha2.width/2,self.seta_vermelha2.y+self.seta_vermelha2.height/2)
 
+        self.perfeito=self.perfeito2=0
+
         self.combo_p1=self.combo_p2=0
 
+        #self.combo_5x_sprite=(os.path.join(assets_path, "combo5x.png")); self.combo_5x_sprite.set_position(4000,3000)
+        #self.combo_10x_sprite=Sprite(os.path.join(assets_path, "combo10x.png")); self.combo_10x_sprite.set_position(4000,3000)
+        #self.combo_20x_sprite=Sprite(os.path.join(assets_path, "combo20x.png")); self.combo_20x_sprite.set_position(4000,3000)
+
+        #self.combo_5x_sprite2=Sprite(os.path.join(assets_path, "combo5x.png")); self.combo_5x_sprite2.set_position(4000,3000)
+        #self.combo_10x_sprite2=Sprite(os.path.join(assets_path, "combo10x.png")); self.combo_10x_sprite2.set_position(4000,3000)
+        #self.combo_20x_sprite2=Sprite(os.path.join(assets_path, "combo20x.png")); self.combo_20x_sprite2.set_position(4000,3000)
 
 
         # inicializar fora da tela
@@ -117,14 +126,14 @@ class MecanicaSetas():
                     if player_ref=="p1":
                         if perfect.collided(seta):
                             self.lifebar_verde2.y+=2
-                            #perfeito=1
+                            self.perfeito=1
                             #desenha sprite do perfeito
                             #perfect_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
                         self.lifebar_verde2.y+=1+(self.combo_p1/10)
-                        #if not perfeito:
+                        if not self.perfeito:
                             #desenha sprite do good
                             #good_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
-                        #perfeito=0
+                        self.perfeito=0
                     lista.remove(seta)
                 elif seta.y < -seta.height:
                     lista.remove(seta)
@@ -138,16 +147,33 @@ class MecanicaSetas():
                 if player_ref=="p1":
                     self.lifebar_verde.y += 1
                     #desenha sprite do miss
-                    #miss_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
+                    #miss_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho(o quanto for ficar bom))
                     self.combo_p1=0
 
             if self.combo_p1>=20:
                 self.combo_max=True
+                #self.combo_20x_sprite.set_position(50,400)
+                #self.combo_5x_sprite.set_position(3000,4000)
+                #self.combo_10x_sprite.set_position(3000,4000)
             else:
                 self.combo_max=False
             if acertou:
                 if not self.combo_max:
                     self.combo_p1+=1
+            #if self.combo_p2<5:
+                #self.combo_5x_sprite.set_position(3000,4000)
+                #self.combo_10x_sprite.set_position(3000,4000)
+                #self.combo_20x_sprite.set_position(3000,4000)
+            #if 10>=self.combo_p2>=5:
+                #self.combo_5x_sprite.set_position(50,400)
+            #if 10<=self.combo_p2<20:
+                #self.combo_5x_sprite.set_position(3000,4000)
+                #self.combo_10x_sprite.set_position(50,400)
+
+        #self.combo_5x_sprite.draw()
+        #self.combo_10x_sprite.draw()
+        #self.combo_20x_sprite.draw()
+
 
         # desenhar e mover setas jogador 2
         for lista, elimina, player_ref, perfect, estadoanterior_letra, estadoatual_letra in [
@@ -165,14 +191,14 @@ class MecanicaSetas():
                     if player_ref=="p2":
                         if perfect.collided(seta):
                             self.lifebar_verde.y+=2
-                            #perfeito=1
+                            self.perfeito2=1
                             #desenha sprite do perfeito
                             #perfect_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
                         self.lifebar_verde.y+=1+(self.combo_p2/10)
-                        #if not perfeito:
+                        if not self.perfeito2:
                             #desenha sprite do good
                             #good_sprite.set_position(perfect.x-sprite.width/2,perfect.y+um pouquinho)
-                        #perfeito=0
+                        self.perfeito2=0
                     lista.remove(seta)
                 elif seta.y < -seta.height:
                     lista.remove(seta)
@@ -191,12 +217,27 @@ class MecanicaSetas():
 
             if self.combo_p2>=20:
                 self.combo_max2=True
+                #self.combo_20x_sprite2.set_position(700,400)
+                #self.combo_5x_sprite2.set_position(3000,4000)
+                #self.combo_10x_sprite2.set_position(3000,4000)
             else:
                 self.combo_max2=False
             if acertou:
                 if not self.combo_max2:
                     self.combo_p2+=1
+            #if self.combo_p2<5:
+                #self.combo_5x_sprite2.set_position(3000,4000)
+                #self.combo_10x_sprite2.set_position(3000,4000)
+                #self.combo_20x_sprite2.set_position(3000,4000)
+            #if 10>=self.combo_p2>=5:
+                #self.combo_5x_sprite2.set_position(700,400)
+            #if 10<=self.combo_p2<20:
+                #self.combo_5x_sprite2.set_position(3000,4000)
+                #self.combo_10x_sprite2.set_position(700,400)
 
+        #self.combo_5x_sprite2.draw()
+        #self.combo_10x_sprite2.draw()
+        #self.combo_20x_sprite2.draw()
 
         # geração de novas setas
         self.tempo += dt
