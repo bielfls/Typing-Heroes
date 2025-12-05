@@ -6,22 +6,45 @@ from knightP1Class import KnightP1
 from knightP2Class import KnightP2
 from samuraiP1Class import SamuraiP1
 from samuraiP2Class import SamuraiP2
+from esqueletoP1Class import EsqueletoP1
+from esqueletoP2Class import EsqueletoP2
+from loboP1Class import LoboP1
+from loboP2Class import LoboP2
 
 class Selection:
-    def __init__(self):
+    def __init__(self, janela):
         #acessando a pasta Assets e pegando as imagens
         self.knight_p1 = KnightP1()
         self.knight_p2 = KnightP2()
         self.samurai_p1 = SamuraiP1()
         self.samurai_p2 = SamuraiP2()
+        self.esqueleto_p1 = EsqueletoP1()
+        self.esqueleto_p2 = EsqueletoP2()
+        self.lobo_p1 = LoboP1()
+        self.lobo_p2 = LoboP2()
         assets_path = os.path.join(os.path.dirname(__file__), "Assets")
         self.fundo = Sprite(os.path.join(assets_path, "selection_fundo.png"))
         self.knight_select_p1 = Sprite(os.path.join(assets_path, "knight_select.png"))
         self.knight_select_p2 = Sprite(os.path.join(assets_path, "knight_select.png"))
         self.samurai_select_p1 = Sprite(os.path.join(assets_path, "samurai_select.png"))
         self.samurai_select_p2 = Sprite(os.path.join(assets_path, "samurai_select.png"))
+        self.esqueleto_select_p1 = Sprite(os.path.join(assets_path, "esqueleto_select.png"))
+        self.esqueleto_select_p2 = Sprite(os.path.join(assets_path, "esqueleto_select.png"))
+        self.lobo_select_p1 = Sprite(os.path.join(assets_path, "lobo_select.png"))
+        self.lobo_select_p2 = Sprite(os.path.join(assets_path, "lobo_select.png"))
         self.botao_jogar = Sprite(os.path.join(assets_path, "botao_jogar_selection.png"))
         self.escolha_letreiro = Sprite(os.path.join(assets_path, "escolha_letreiro.png"))
+
+        self.fundo.set_position(0,0)
+        self.knight_select_p1.set_position(15,15)
+        self.knight_select_p2.set_position(janela.width - self.knight_select_p2.width - 15, 15)
+        self.samurai_select_p1.set_position(15, 15*2 + self.knight_select_p2.height)
+        self.samurai_select_p2.set_position(janela.width - self.knight_select_p2.width - 15, 15*2 + self.knight_select_p2.height)
+        self.escolha_letreiro.set_position(janela.width/2 - self.escolha_letreiro.width/2, 15)
+        self.esqueleto_select_p1.set_position(15, 15*3 + self.knight_select_p2.height*2)
+        self.esqueleto_select_p2.set_position(janela.width - self.knight_select_p2.width - 15, 15*3 + self.knight_select_p2.height*2)
+        self.lobo_select_p1.set_position(15, 15*4 + self.knight_select_p2.height*3)
+        self.lobo_select_p2.set_position(janela.width - self.knight_select_p2.width - 15, 15*4 + self.knight_select_p2.height*3)
 
         #variaveis de escolha de personagem
         self.p1_escolheu = False
@@ -37,12 +60,6 @@ class Selection:
 
     #função pra desenhar os blocos principais da tela de seleção
     def selection_draw(self, janela : Window):
-        self.fundo.set_position(0,0)
-        self.knight_select_p1.set_position(15,15)
-        self.knight_select_p2.set_position(janela.width - self.knight_select_p2.width - 15, 15)
-        self.samurai_select_p1.set_position(15, 15*2 + self.knight_select_p2.height)
-        self.samurai_select_p2.set_position(janela.width - self.knight_select_p2.width - 15, 15*2 + self.knight_select_p2.height)
-        self.escolha_letreiro.set_position(janela.width/2 - self.escolha_letreiro.width/2, 15)
 
         self.fundo.draw()
         self.escolha_letreiro.draw()
@@ -50,6 +67,10 @@ class Selection:
         self.knight_select_p2.draw()
         self.samurai_select_p1.draw()
         self.samurai_select_p2.draw()
+        self.esqueleto_select_p1.draw()
+        self.esqueleto_select_p2.draw()
+        self.lobo_select_p1.draw()
+        self.lobo_select_p2.draw()
         janela.draw_text("ESC para voltar", 10, 620, 20, (255,255,255), "Arial", True)
         
     
@@ -62,6 +83,12 @@ class Selection:
                 if cursor.is_over_object(self.samurai_select_p1):
                         self.samurai_p1.png.set_position(janela.width/2 - self.samurai_p1.png.width - 50, janela.height - self.samurai_p1.png.height)
                         self.samurai_p1.png.draw()
+                if cursor.is_over_object(self.esqueleto_select_p1):
+                        self.esqueleto_p1.png.set_position(janela.width/2 - self.esqueleto_p1.png.width - 50, janela.height - self.esqueleto_p1.png.height)
+                        self.esqueleto_p1.png.draw()
+                if cursor.is_over_object(self.lobo_select_p1):
+                        self.lobo_p1.png.set_position(janela.width/2 - self.lobo_p1.png.width - 50, janela.height - self.lobo_p1.png.height)
+                        self.lobo_p1.png.draw()
 
                 #quando o player escolhe o personagem clicando
                 if cursor.is_over_object(self.knight_select_p1) and cursor.is_button_pressed(1):
@@ -70,6 +97,14 @@ class Selection:
                 if cursor.is_over_object(self.samurai_select_p1) and cursor.is_button_pressed(1):
                         self.p1_escolheu = True
                         self.p1_escolha = "SAMURAI"
+                if cursor.is_over_object(self.esqueleto_select_p1) and cursor.is_button_pressed(1):
+                        self.p1_escolheu = True
+                        self.p1_escolha = "ESQUELETO"
+                if cursor.is_over_object(self.lobo_select_p1) and cursor.is_button_pressed(1):
+                        self.p1_escolheu = True
+                        self.p1_escolha = "LOBO"
+
+
         if not self.p2_escolheu:
                 #quando o player escolhe o personagem clicando
                 if cursor.is_over_object(self.knight_select_p2):
@@ -78,6 +113,12 @@ class Selection:
                 if cursor.is_over_object(self.samurai_select_p2):
                         self.samurai_p2.png.set_position(janela.width/2 + 50, janela.height - self.samurai_p2.png.height)
                         self.samurai_p2.png.draw()
+                if cursor.is_over_object(self.esqueleto_select_p2):
+                        self.esqueleto_p2.png.set_position(janela.width/2 + 50, janela.height - self.esqueleto_p2.png.height)
+                        self.esqueleto_p2.png.draw()
+                if cursor.is_over_object(self.lobo_select_p2):
+                        self.lobo_p2.png.set_position(janela.width/2 + 50, janela.height - self.lobo_p2.png.height)
+                        self.lobo_p2.png.draw()
 
                 #se player escolher, o personagem começara a ser animado começando com um ataque
                 if cursor.is_over_object(self.knight_select_p2) and cursor.is_button_pressed(1):
@@ -86,6 +127,12 @@ class Selection:
                 if cursor.is_over_object(self.samurai_select_p2) and cursor.is_button_pressed(1):
                         self.p2_escolheu = True
                         self.p2_escolha = "SAMURAI"
+                if cursor.is_over_object(self.esqueleto_select_p2) and cursor.is_button_pressed(1):
+                        self.p2_escolheu = True
+                        self.p2_escolha = "ESQUELETO"
+                if cursor.is_over_object(self.lobo_select_p2) and cursor.is_button_pressed(1):
+                        self.p2_escolheu = True
+                        self.p2_escolha = "LOBO"
 
         #se player escolher, o personagem começara a ser animado começando com um ataque
         if self.p1_escolheu:
@@ -105,6 +152,22 @@ class Selection:
                 self.knight_p1.atualiza_anim()
                 self.knight_p1.desenha()
 
+              elif self.p1_escolha == "ESQUELETO":
+                self.esqueleto_p1.anim_atual.set_position(50 , janela.height - self.esqueleto_p1.anim_atual.height)
+                if not self.p1_animou_ataque:
+                        self.esqueleto_p1.ataque_2()
+                        self.p1_animou_ataque = True
+                self.esqueleto_p1.atualiza_anim()
+                self.esqueleto_p1.desenha()
+
+              elif self.p1_escolha == "LOBO":
+                self.lobo_p1.anim_atual.set_position(50 , janela.height - self.lobo_p1.anim_atual.height)
+                if not self.p1_animou_ataque:
+                        self.lobo_p1.ataque_2()
+                        self.p1_animou_ataque = True
+                self.lobo_p1.atualiza_anim()
+                self.lobo_p1.desenha()
+
         if self.p2_escolheu:
               if self.p2_escolha == "SAMURAI":
                 self.samurai_p2.anim_atual.set_position(janela.width - 225 - self.knight_p2.anim_atual.width, janela.height - self.samurai_p2.anim_atual.height)
@@ -121,6 +184,22 @@ class Selection:
                         self.p2_animou_ataque = True
                 self.knight_p2.atualiza_anim()
                 self.knight_p2.desenha()
+
+              elif self.p2_escolha == "ESQUELETO":
+                self.esqueleto_p2.anim_atual.set_position(janela.width - 50 - self.esqueleto_p2.anim_atual.width, janela.height - self.esqueleto_p2.anim_atual.height)
+                if not self.p2_animou_ataque:
+                        self.esqueleto_p2.ataque_2()
+                        self.p2_animou_ataque = True
+                self.esqueleto_p2.atualiza_anim()
+                self.esqueleto_p2.desenha()
+
+              elif self.p2_escolha == "LOBO":
+                self.lobo_p2.anim_atual.set_position(janela.width - 50 - self.lobo_p2.anim_atual.width, janela.height - self.lobo_p2.anim_atual.height)
+                if not self.p2_animou_ataque:
+                        self.lobo_p2.ataque_2()
+                        self.p2_animou_ataque = True
+                self.lobo_p2.atualiza_anim()
+                self.lobo_p2.desenha()
         
         if self.p1_escolheu and self.p2_escolheu:
               self.botao_jogar.set_position(janela.width/2 - self.botao_jogar.width/2, janela.height/2 - self.botao_jogar.height/2)
