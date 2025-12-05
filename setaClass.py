@@ -205,29 +205,29 @@ class MecanicaSetas():
                     self.combo_p1 = 0
 
 
-                if self.combo_p1>=20:
-                    self.combo_max=True
-                    #self.combo_20x_sprite.set_position(50,400)
-                    #self.combo_5x_sprite.set_position(3000,4000)
-                    #self.combo_10x_sprite.set_position(3000,4000)
-                else:
-                    self.combo_max=False
-                if acertou:
-                    if not self.combo_max:
-                        self.combo_p1+=1
-                #if self.combo_p2<5:
-                    #self.combo_5x_sprite.set_position(3000,4000)
-                    #self.combo_10x_sprite.set_position(3000,4000)
-                    #self.combo_20x_sprite.set_position(3000,4000)
-                #if 10>=self.combo_p2>=5:
-                    #self.combo_5x_sprite.set_position(50,400)
-                #if 10<=self.combo_p2<20:
-                    #self.combo_5x_sprite.set_position(3000,4000)
-                    #self.combo_10x_sprite.set_position(50,400)
+            if self.combo_p1>=20:
+                self.combo_max=True
+                #self.combo_20x_sprite.set_position(50,400)
+                #self.combo_5x_sprite.set_position(3000,4000)
+                #self.combo_10x_sprite.set_position(3000,4000)
+            else:
+                self.combo_max=False
+            if acertou:
+                if not self.combo_max:
+                    self.combo_p1+=1
+            #if self.combo_p2<5:
+                #self.combo_5x_sprite.set_position(3000,4000)
+                #self.combo_10x_sprite.set_position(3000,4000)
+                #self.combo_20x_sprite.set_position(3000,4000)
+            #if 10>=self.combo_p2>=5:
+                #self.combo_5x_sprite.set_position(50,400)
+            #if 10<=self.combo_p2<20:
+                #self.combo_5x_sprite.set_position(3000,4000)
+                #self.combo_10x_sprite.set_position(50,400)
 
-            #self.combo_5x_sprite.draw()
-            #self.combo_10x_sprite.draw()
-            #self.combo_20x_sprite.draw()
+        #self.combo_5x_sprite.draw()
+        #self.combo_10x_sprite.draw()
+        #self.combo_20x_sprite.draw()
 
         for lista, elimina, player_ref, perfect, estadoanterior_letra, estadoatual_letra, miss_name, good_name, perfeito_name in [
             (self.lista_az2, self.elimina_azul2, "p2", self.perfect_az2, self.estadoanterior_i, self.estadoatual_i, "miss_az2_bool", "good_az2_bool", "perfeito_az2_bool"),
@@ -569,6 +569,20 @@ class MecanicaSetas():
         self.tempo_miss_vm2=self.tempo_good_vm2=self.tempo_perfeito_vm2=0
         self.tempo_miss_am2=self.tempo_good_am2=self.tempo_perfeito_am2=0
         self.tempo_miss_az2=self.tempo_good_az2=self.tempo_perfeito_az2=0
+
+        sprites = [
+            self.perfeito_vd, self.perfeito_vm, self.perfeito_am, self.perfeito_az,
+            self.perfeito_vd2, self.perfeito_vm2, self.perfeito_am2, self.perfeito_az2,
+            
+            self.good_vd, self.good_vm, self.good_am, self.good_az,
+            self.good_vd2, self.good_vm2, self.good_am2, self.good_az2,
+            
+            self.miss_vd, self.miss_vm, self.miss_am, self.miss_az,
+            self.miss_vd2, self.miss_vm2, self.miss_am2, self.miss_az2
+        ]
+
+        for sp in sprites:
+            sp.set_position(4000, 3000)
 
         self.estadoanterior_p=self.estadoatual_p=False
         self.estadoanterior_o=self.estadoatual_o=False
