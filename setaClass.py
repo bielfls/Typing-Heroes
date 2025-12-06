@@ -135,6 +135,10 @@ class MecanicaSetas():
 
         self.combo_p1=self.combo_p2=0
 
+        self.combo_5x_p1=self.combo_5x_p2=Sprite(os.path.join(assets_path, "miss.png"))
+        self.combo_10x_p1=self.combo_10x_p2=Sprite(os.path.join(assets_path, "good.png"))
+        self.combo_20x_p1=self.combo_20x_p2=Sprite(os.path.join(assets_path, "perfect.png"))
+
         #self.combo_5x_sprite=(os.path.join(assets_path, "combo5x.png")); self.combo_5x_sprite.set_position(4000,3000)
         #self.combo_10x_sprite=Sprite(os.path.join(assets_path, "combo10x.png")); self.combo_10x_sprite.set_position(4000,3000)
         #self.combo_20x_sprite=Sprite(os.path.join(assets_path, "combo20x.png")); self.combo_20x_sprite.set_position(4000,3000)
@@ -207,27 +211,27 @@ class MecanicaSetas():
 
             if self.combo_p1>=20:
                 self.combo_max=True
-                #self.combo_20x_sprite.set_position(50,400)
-                #self.combo_5x_sprite.set_position(3000,4000)
-                #self.combo_10x_sprite.set_position(3000,4000)
+                self.combo_20x_p1.set_position(50,400)
+                self.combo_5x_p1.set_position(3000,4000)
+                self.combo_10x_p1.set_position(3000,4000)
             else:
                 self.combo_max=False
             if acertou:
                 if not self.combo_max:
                     self.combo_p1+=1
-            #if self.combo_p2<5:
-                #self.combo_5x_sprite.set_position(3000,4000)
-                #self.combo_10x_sprite.set_position(3000,4000)
-                #self.combo_20x_sprite.set_position(3000,4000)
-            #if 10>=self.combo_p2>=5:
-                #self.combo_5x_sprite.set_position(50,400)
-            #if 10<=self.combo_p2<20:
-                #self.combo_5x_sprite.set_position(3000,4000)
-                #self.combo_10x_sprite.set_position(50,400)
+            if self.combo_p1<5:
+                self.combo_5x_p1.set_position(3000,4000)
+                self.combo_10x_p1.set_position(3000,4000)
+                self.combo_20x_p1.set_position(3000,4000)
+            if 10>=self.combo_p1>=5:
+                self.combo_5x_p1.set_position(50,400)
+            if 10<=self.combo_p1<20:
+                self.combo_5x_p1.set_position(3000,4000)
+                self.combo_10x_p1.set_position(50,400)
 
-        #self.combo_5x_sprite.draw()
-        #self.combo_10x_sprite.draw()
-        #self.combo_20x_sprite.draw()
+        self.combo_5x_p1.draw()
+        self.combo_10x_p1.draw()
+        self.combo_20x_p1.draw()
 
         for lista, elimina, player_ref, perfect, estadoanterior_letra, estadoatual_letra, miss_name, good_name, perfeito_name in [
             (self.lista_az2, self.elimina_azul2, "p2", self.perfect_az2, self.estadoanterior_i, self.estadoatual_i, "miss_az2_bool", "good_az2_bool", "perfeito_az2_bool"),
@@ -280,28 +284,31 @@ class MecanicaSetas():
                     self.combo_p2 = 0
 
             # verificar combos
-            if self.combo_p2 >= 20:
-                self.combo_max2 = True
+            if self.combo_p2>=20:
+                self.combo_max2=True
+                self.combo_20x_p2.set_position(900,400)
+                self.combo_5x_p2.set_position(3000,4000)
+                self.combo_10x_p2.set_position(3000,4000)
             else:
-                self.combo_max2 = False
+                self.combo_max2=False
 
             if acertou:
                 if not self.combo_max2:
                     self.combo_p2 += 1
 
-            #if self.combo_p2<5:
-                #self.combo_5x_sprite.set_position(3000,4000)
-                #self.combo_10x_sprite.set_position(3000,4000)
-                #self.combo_20x_sprite.set_position(3000,4000)
-             #if 10>=self.combo_p2>=5:
-                #self.combo_5x_sprite.set_position(50,400)
-            #if 10<=self.combo_p2<20:
-                #self.combo_5x_sprite.set_position(3000,4000)
-                #self.combo_10x_sprite.set_position(50,400)
+            if self.combo_p2<5:
+                self.combo_5x_p2.set_position(3000,4000)
+                self.combo_10x_p2.set_position(3000,4000)
+                self.combo_20x_p2.set_position(3000,4000)
+            if 10>=self.combo_p2>=5:
+                self.combo_5x_p2.set_position(900,400)
+            if 10<=self.combo_p2<20:
+                self.combo_5x_p2.set_position(3000,4000)
+                self.combo_10x_p2.set_position(900,400)
 
-            #self.combo_5x_sprite.draw()
-            #self.combo_10x_sprite.draw()
-            #self.combo_20x_sprite.draw()
+            self.combo_5x_p2.draw()
+            self.combo_10x_p2.draw()
+            self.combo_20x_p2.draw()
 
 
         efeitos = [
