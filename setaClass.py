@@ -135,9 +135,9 @@ class MecanicaSetas():
 
         self.combo_p1=self.combo_p2=0
 
-        self.combo_5x_p1=self.combo_5x_p2=Sprite(os.path.join(assets_path, "miss.png"))
-        self.combo_10x_p1=self.combo_10x_p2=Sprite(os.path.join(assets_path, "good.png"))
-        self.combo_20x_p1=self.combo_20x_p2=Sprite(os.path.join(assets_path, "perfect.png"))
+        self.combo_5x_p1=self.combo_5x_p2=Sprite(os.path.join(assets_path, "x5.png"))
+        self.combo_10x_p1=self.combo_10x_p2=Sprite(os.path.join(assets_path, "x10.png"))
+        self.combo_20x_p1=self.combo_20x_p2=Sprite(os.path.join(assets_path, "x20.png"))
 
         #self.combo_5x_sprite=(os.path.join(assets_path, "combo5x.png")); self.combo_5x_sprite.set_position(4000,3000)
         #self.combo_10x_sprite=Sprite(os.path.join(assets_path, "combo10x.png")); self.combo_10x_sprite.set_position(4000,3000)
