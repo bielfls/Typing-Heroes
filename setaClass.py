@@ -135,17 +135,13 @@ class MecanicaSetas():
 
         self.combo_p1=self.combo_p2=0
 
-        self.combo_5x_p1=self.combo_5x_p2=Sprite(os.path.join(assets_path, "x5.png"))
-        self.combo_10x_p1=self.combo_10x_p2=Sprite(os.path.join(assets_path, "x10.png"))
-        self.combo_20x_p1=self.combo_20x_p2=Sprite(os.path.join(assets_path, "x20.png"))
+        self.combo_5x_p1=Sprite(os.path.join(assets_path, "x5.png")); self.combo_5x_p1.set_position(4000,3000)
+        self.combo_10x_p1=Sprite(os.path.join(assets_path, "x10.png")); self.combo_10x_p1.set_position(4000,3000)
+        self.combo_20x_p1=Sprite(os.path.join(assets_path, "x20.png")); self.combo_20x_p1.set_position(4000,3000)
 
-        #self.combo_5x_sprite=(os.path.join(assets_path, "combo5x.png")); self.combo_5x_sprite.set_position(4000,3000)
-        #self.combo_10x_sprite=Sprite(os.path.join(assets_path, "combo10x.png")); self.combo_10x_sprite.set_position(4000,3000)
-        #self.combo_20x_sprite=Sprite(os.path.join(assets_path, "combo20x.png")); self.combo_20x_sprite.set_position(4000,3000)
-
-        #self.combo_5x_sprite2=Sprite(os.path.join(assets_path, "combo5x.png")); self.combo_5x_sprite2.set_position(4000,3000)
-        #self.combo_10x_sprite2=Sprite(os.path.join(assets_path, "combo10x.png")); self.combo_10x_sprite2.set_position(4000,3000)
-        #self.combo_20x_sprite2=Sprite(os.path.join(assets_path, "combo20x.png")); self.combo_20x_sprite2.set_position(4000,3000)
+        self.combo_5x_p2=Sprite(os.path.join(assets_path, "x5.png")); self.combo_5x_p2.set_position(4000,3000)
+        self.combo_10x_p2=Sprite(os.path.join(assets_path, "x10.png")); self.combo_10x_p2.set_position(4000,3000)
+        self.combo_20x_p2=Sprite(os.path.join(assets_path, "x20.png")); self.combo_20x_p2.set_position(4000,3000)
 
 
         # inicializar fora da tela
@@ -585,8 +581,16 @@ class MecanicaSetas():
             self.miss_vd2, self.miss_vm2, self.miss_am2, self.miss_az2
         ]
 
+        combos = [
+            self.combo_5x_p1, self.combo_10x_p1, self.combo_20x_p1, self.combo_5x_p2,
+            self.combo_10x_p2, self.combo_20x_p2
+        ]
+
         for sp in sprites:
             sp.set_position(4000, 3000)
+
+        for c in combos:
+            c.set_position(4000,3000)
 
         self.estadoanterior_p=self.estadoatual_p=False
         self.estadoanterior_o=self.estadoatual_o=False
