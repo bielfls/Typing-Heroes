@@ -548,9 +548,6 @@ class MecanicaSetas():
             else:
                 elimina.set_position(3000,4000)
 
-        janela.draw_text(str(self.combo_p1), 20, 60, size=20, color=(255, 255, 255))
-        janela.draw_text(str(self.combo_p2), 600, 60, size=50, color=(255, 255, 255))
-
     def reinicia_variaveis(self, janela:Window):
         # inicializar fora da tela
         for e in [self.elimina_azul, self.elimina_amarela, self.elimina_verde, self.elimina_vermelha,
