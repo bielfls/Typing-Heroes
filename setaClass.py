@@ -282,7 +282,7 @@ class MecanicaSetas():
             # verificar combos
             if self.combo_p2>=20:
                 self.combo_max2=True
-                self.combo_20x_p2.set_position(900,400)
+                self.combo_20x_p2.set_position(janela.width-50-self.combo_5x_p2.width,400)
                 self.combo_5x_p2.set_position(3000,4000)
                 self.combo_10x_p2.set_position(3000,4000)
             else:
@@ -297,10 +297,10 @@ class MecanicaSetas():
                 self.combo_10x_p2.set_position(3000,4000)
                 self.combo_20x_p2.set_position(3000,4000)
             if 10>=self.combo_p2>=5:
-                self.combo_5x_p2.set_position(900,400)
+                self.combo_5x_p2.set_position(janela.width-50-self.combo_5x_p2.width,400)
             if 10<=self.combo_p2<20:
                 self.combo_5x_p2.set_position(3000,4000)
-                self.combo_10x_p2.set_position(900,400)
+                self.combo_10x_p2.set_position(janela.width-50-self.combo_5x_p2.width,400)
 
             self.combo_5x_p2.draw()
             self.combo_10x_p2.draw()
@@ -607,7 +607,7 @@ class MecanicaSetas():
         self.contagem=[0,0,0,0]
         self.contagem2=[0,0,0,0]
 
-        self.combo=self.combo2=0
+        self.combo_p1=self.combo_p2=0
 
         # listas de setas
         self.lista_az=[]; self.lista_am=[]; self.lista_vd=[]; self.lista_vm=[]
